@@ -2,7 +2,7 @@ package com.codeclan.example.chordisto;
 
 import java.util.ArrayList;
 
-import static com.codeclan.example.chordisto.ChordType.MAJOR;
+import static com.codeclan.example.chordisto.TriadType.*;
 
 /**
  * Created by user on 03/03/2017.
@@ -10,57 +10,69 @@ import static com.codeclan.example.chordisto.ChordType.MAJOR;
 
 public class Parser {
 
+    //instance variables
+    String root;
+    ArrayList<Character> elements;
+    TriadType triad;
+
+    //getters
+
+
+    public String getRoot() {
+        return root;
+    }
+
+    public ArrayList<Character> getElements() {
+        return elements;
+    }
+
+    public TriadType getTriad() {
+        return triad;
+    }
+
+    //los métodos
     public String[] splitString(String string) {
         return string.split("[, ]+");
     }
 
-    public ArrayList<Character> splitChordSymbol(String string) {
-        ArrayList<Character> returnedArrayList = new ArrayList<>();
+    public void splitChordSymbol(String string) {
+        elements = new ArrayList<>();
         char[] charArray = string.toCharArray();
         for (char character : charArray) {
-            returnedArrayList.add(character);
+            elements.add(character);
         }
-
-        return returnedArrayList;
     }
 
-    public String getRoot(String chord) {
+    public void deleteElement() {
+        elements.remove(0);
+    }
 
-        ArrayList<Character> elements = splitChordSymbol(chord);
+    public void setRoot() {
 
-        String root = null;
+        this.root = null;
 
         if (Character.toString(elements.get(0)).matches("[A-G]")) {
             root = Character.toString(elements.get(0));
-            if (Character.toString(elements.get(1)).matches("[#b]")) {
-                root = Character.toString(elements.get(0)) + Character.toString(elements.get(1));
+            deleteElement();
+            if (Character.toString(elements.get(0)).matches("[#b]")) {
+                root +=  Character.toString(elements.get(1));
+                deleteElement();
             }
         }
-        return root;
     }
 
-    public ArrayList<Character> deleteParsedElements(ArrayList<Character> elements, String parsedElement) {
-        int indicesToDelete = parsedElement.length();
-        int counter = 0;
 
-        do {
-            elements.remove(counter);
-            counter++;
+
+    public void setChordType(String chord) {
+
+        if (elements.size() == 0){
+            triad = MAJOR;
         }
-        while (counter < indicesToDelete);
-        return elements;
-    }
-
-    public ChordType getChordType(String chord) {
-        ArrayList<Character> elements = splitChordSymbol(chord);
-        if (elements.size() == 1) {
-            return MAJOR;
-        } else if (elements.size() == 2) {
-            if (Character.toString(elements.get(1)).matches("[#b]")) {
-                return MAJOR;
-            }
+        else if(elements.get(0).equals('m')){
+            triad = MINOR;
+            deleteElement();
         }
 
-        return null;
+
     }
 }
