@@ -25,4 +25,10 @@ public class TestParser {
         assertEquals(4, parser.splitString(chords).length);
     }
 
+    @Test
+    public void testCanBreakSymbolIntoChars(){
+        String chord = "F7b9";
+        assertEquals(4, parser.splitChordSymbol(chord).length);
+    }
+
 }

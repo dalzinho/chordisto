@@ -7,7 +7,11 @@ package com.codeclan.example.chordisto;
 public class Parser {
 
     public String[] splitString(String string){
-        String[] chordArray = string.split("[, ]+");
-        return chordArray;
+        return string.split("[, ]+");
     }
+
+    public char[] splitChordSymbol(String string){
+        return string.toCharArray();
+    }
+
 }
