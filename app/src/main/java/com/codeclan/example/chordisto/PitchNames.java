@@ -5,5 +5,21 @@ package com.codeclan.example.chordisto;
  */
 
 public enum PitchNames {
-
+    C,
+    CSHARP,
+    DFLAT,
+    D,
+    DSHARP,
+    EFLAT,
+    E,
+    F,
+    FSHARP,
+    GFLAT,
+    G,
+    GSHARP,
+    AFLAT,
+    A,
+    ASHARP,
+    BFLAT,
+    B,
 }

@@ -3,6 +3,9 @@ package com.codeclan.example.chordisto;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
+
+import static com.codeclan.example.chordisto.ChordType.MAJOR;
 import static junit.framework.Assert.assertEquals;
 
 /**
@@ -28,7 +31,7 @@ public class TestParser {
     @Test
     public void testCanBreakSymbolIntoChunks() {
         String chord = "F7";
-        assertEquals(2, parser.splitChordSymbol(chord).length);
+        assertEquals(2, parser.splitChordSymbol(chord).size());
 
     }
 
@@ -48,5 +51,23 @@ public class TestParser {
     public void testGetRootNoteFromLudicrouslyComplexChordSymbol(){
         String chord = "Bb7b11b13";
         assertEquals("Bb", parser.getRoot(chord));
+    }
+
+    @Test
+    public void testGetChordTypeMajorNonAccidental(){
+        String chord = "C";
+        assertEquals(MAJOR, parser.getChordType(chord));
+    }
+
+    @Test
+    public void testCanDeleteRootNoteFromSimpleChord(){
+        String chord = "Bb7";
+        ArrayList<Character> elements = parser.splitChordSymbol(chord);
+        assertEquals(1, parser.deleteParsedElements(elements, "Bb").size());
+    }
+
+    @Test
+    public void testRecognisesMinorChords(){
+        
     }
 }
