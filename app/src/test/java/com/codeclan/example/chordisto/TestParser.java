@@ -14,21 +14,39 @@ public class TestParser {
     Parser parser;
 
     @Before
-    public void setup(){
+    public void setup() {
         parser = new Parser();
     }
 
     @Test
-    public void testCanSeparateInputIntoArray(){
+    public void testCanSeparateInputIntoArray() {
         String chords = "C, G, F, G";
 //        String[] chordArray = parser.splitString(chords);
         assertEquals(4, parser.splitString(chords).length);
     }
 
     @Test
-    public void testCanBreakSymbolIntoChars(){
-        String chord = "F7b9";
-        assertEquals(4, parser.splitChordSymbol(chord).length);
+    public void testCanBreakSymbolIntoChunks() {
+        String chord = "F7";
+        assertEquals(2, parser.splitChordSymbol(chord).length);
+
     }
 
+    @Test
+    public void testUseRegexToPullRootNote() {
+        String chord = "F7b9";
+        assertEquals("F", parser.getRoot(chord));
+    }
+
+    @Test
+    public void testUseRegexToPullAccidentalRootNote(){
+        String chord = "F#7b9";
+        assertEquals("F#", parser.getRoot(chord));
+    }
+
+    @Test
+    public void testGetRootNoteFromLudicrouslyComplexChordSymbol(){
+        String chord = "Bb7b11b13";
+        assertEquals("Bb", parser.getRoot(chord));
+    }
 }
