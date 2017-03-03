@@ -5,4 +5,9 @@ package com.codeclan.example.chordisto;
  */
 
 public class Chord {
+
+    public Chord(){
+
+    }
+
 }
