@@ -27,11 +27,24 @@ public class TestParser {
     }
 
     @Test
-    public void testRegexGetsRoot(){
-        String chord = "F#m";
+    public void testRegexGetsSimpleRoot(){
+        String chord = "C";
+        parser.run(chord);
+        assertEquals("C", parser.getRoot());
+    }
+
+    @Test
+    public void testRegexGetsRootWithAccidental(){
+        String chord = "Bb";
+        parser.run(chord);
+        assertEquals("Bb", parser.getRoot());
+
+        String otherChord = "F#";
         parser.run(chord);
         assertEquals("F#", parser.getRoot());
     }
+
+
 //    @Test
 //    public void testCanBreakSymbolIntoChunks() {
 //        String chord = "F7";

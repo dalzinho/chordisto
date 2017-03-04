@@ -41,12 +41,12 @@ public class Parser {
         return string.split("[, ]+");
     }
 
-    public void run(String chord){
+    public void run(String chord) {
         Matcher m = pattern.matcher(chord);
-            if (m.matches()){
-                this.root = m.group(1);
-            }
+        if (m.matches()) {
+            root = m.group(1);
         }
+    }
 
 
 
