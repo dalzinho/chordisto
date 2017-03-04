@@ -1,6 +1,7 @@
 package com.codeclan.example.chordisto;
 
 import java.util.ArrayList;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static com.codeclan.example.chordisto.TriadType.*;
@@ -12,10 +13,10 @@ import static com.codeclan.example.chordisto.TriadType.*;
 public class Parser {
 
     //instance variables
-    ArrayList<Character> elements;
-    String root;
-    TriadType triad;
-    Pattern pattern;
+    private ArrayList<Character> elements;
+    private String root;
+    private TriadType triad;
+    private Pattern pattern;
 
     //constructicon
     public Parser(){
@@ -40,44 +41,53 @@ public class Parser {
         return string.split("[, ]+");
     }
 
-    public void splitChordSymbol(String string) {
-        elements = new ArrayList<>();
-        char[] charArray = string.toCharArray();
-        for (char character : charArray) {
-            elements.add(character);
-        }
-    }
-
-    public void deleteElement() {
-        elements.remove(0);
-    }
-
-    public void setRoot() {
-
-        if (Character.toString(elements.get(0)).matches("[A-G][b#]?")) {
-            this.root = Character.toString(elements.get(0));
-            deleteElement();
-            if (Character.toString(elements.get(0)).matches("[#b]")) {
-                this.root += Character.toString(elements.get(1));
-                deleteElement();
+    public void run(String chord){
+        Matcher m = pattern.matcher(chord);
+            if (m.matches()){
+                this.root = m.group(1);
             }
         }
-    }
-
-    CAPTURE GROUPS!
 
 
 
-    public void setTriad() {
+/*
+public void splitChordSymbol(String string) {
+elements = new ArrayList<>();
+char[] charArray = string.toCharArray();
+for (char character : charArray) {
+elements.add(character);
+}
+}
 
-        if (elements.size() == 0){
-            this.triad = MAJOR;
-        }
-        else if(elements.get(0).equals('m')){
-            this.triad = MINOR;
-            deleteElement();
-        }
+public void deleteElement() {
+elements.remove(0);
+}
+
+public void setRoot() {
+
+if (Character.toString(elements.get(0)).matches("[A-G][b#]?")) {
+this.root = Character.toString(elements.get(0));
+deleteElement();
+if (Character.toString(elements.get(0)).matches("[#b]")) {
+this.root += Character.toString(elements.get(1));
+deleteElement();
+}
+}
+}
 
 
-    }
+
+public void setTriad() {
+
+if (elements.size() == 0){
+this.triad = MAJOR;
+}
+else if(elements.get(0).equals('m')){
+this.triad = MINOR;
+deleteElement();
+}
+
+
+}
+*/
 }
