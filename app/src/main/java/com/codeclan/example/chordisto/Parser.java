@@ -13,7 +13,6 @@ import static com.codeclan.example.chordisto.TriadType.*;
 public class Parser {
 
     //instance variables
-    private ArrayList<Character> elements;
     private String root;
     private TriadType triad;
     private Pattern pattern;
@@ -28,10 +27,6 @@ public class Parser {
         return root;
     }
 
-    public ArrayList<Character> getElements() {
-        return elements;
-    }
-
     public TriadType getTriad() {
         return triad;
     }
@@ -41,7 +36,11 @@ public class Parser {
         return string.split("[, ]+");
     }
 
-    public void setTriad(String triadInfo) {
+    private void setRoot(String rootInfo){
+
+    }
+
+    private void setTriad(String triadInfo) {
         if (triadInfo == null){
             triad = MAJOR;
         } else if (triadInfo.equals("m")) {
@@ -52,15 +51,20 @@ public class Parser {
     }
 
     
-    public void run(String chord) {
+    public void setVariables(String chord) {
         String triadType = null;
+        String rootName = null;
         Matcher m = pattern.matcher(chord);
         if (m.matches()) {
-            root = m.group(1);
-             triadType = m.group(2);
+            rootName = m.group(1);
+            triadType = m.group(2);
         }
-       setTriad(triadType);
+
+        setRoot(rootName);
+        setTriad(triadType);
     }
+
+
 
 
 
