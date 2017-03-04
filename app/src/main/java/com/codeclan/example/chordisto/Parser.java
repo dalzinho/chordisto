@@ -19,8 +19,8 @@ public class Parser {
     private Pattern pattern;
 
     //constructicon
-    public Parser(){
-        pattern = Pattern.compile("([A-G][#b]?)");
+    public Parser() {
+        pattern = Pattern.compile("([A-G][#b]?)([m7])?");
     }
 
     //getters
@@ -41,11 +41,25 @@ public class Parser {
         return string.split("[, ]+");
     }
 
+    public void setTriad(String triadInfo) {
+        if (triadInfo == null){
+            triad = MAJOR;
+        } else if (triadInfo.equals("m")) {
+            triad = MINOR;
+        } else if (triadInfo.equals("7")){
+            triad = DOMINANT;
+        }
+    }
+
+    
     public void run(String chord) {
+        String triadType = null;
         Matcher m = pattern.matcher(chord);
         if (m.matches()) {
             root = m.group(1);
+             triadType = m.group(2);
         }
+       setTriad(triadType);
     }
 
 

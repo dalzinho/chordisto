@@ -44,6 +44,34 @@ public class TestParser {
         assertEquals("F#", parser.getRoot());
     }
 
+    @Test
+    public void testGetRootFromLongerSymbol(){
+        String chord = "Gm";
+        parser.run(chord);
+        assertEquals("G", parser.getRoot());
+    }
+
+    @Test
+    public void testSetTriadMAJOREdition(){
+        String chord = "G";
+        parser.run(chord);
+        assertEquals(MAJOR, parser.getTriad());
+    }
+
+    @Test
+    public void testSetTriadMinorEdition(){
+        String chord = "Gm";
+        parser.run(chord);
+        assertEquals(MINOR, parser.getTriad());
+    }
+
+    @Test
+    public void testSetDominantTriad(){
+        String chord = "F#7";
+        parser.run(chord);
+        assertEquals(DOMINANT, parser.getTriad());
+    }
+
 
 //    @Test
 //    public void testCanBreakSymbolIntoChunks() {
