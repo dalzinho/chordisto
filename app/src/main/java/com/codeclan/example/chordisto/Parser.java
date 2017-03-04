@@ -18,7 +18,7 @@ public class Parser {
 
     //constructicon
     public Parser() {
-        pattern = Pattern.compile("([A-G][#b]?)([m7])?(.*)");
+        pattern = Pattern.compile("([A-G][b#]?)([m7])?(.*)");
     }
 
     //getters
@@ -85,55 +85,10 @@ public class Parser {
         if (m.matches()) {
             rootName = m.group(1);
             triadType = m.group(2);
-//            theRest = m.group(3);
+            theRest = m.group(3);
         }
 
         setRoot(rootName);
         setTriad(triadType);
     }
-
-
-
-
-
-/*
-public void splitChordSymbol(String string) {
-elements = new ArrayList<>();
-char[] charArray = string.toCharArray();
-for (char character : charArray) {
-elements.add(character);
-}
-}
-
-public void deleteElement() {
-elements.remove(0);
-}
-
-public void setRoot() {
-
-if (Character.toString(elements.get(0)).matches("[A-G][b#]?")) {
-this.root = Character.toString(elements.get(0));
-deleteElement();
-if (Character.toString(elements.get(0)).matches("[#b]")) {
-this.root += Character.toString(elements.get(1));
-deleteElement();
-}
-}
-}
-
-
-
-public void setTriad() {
-
-if (elements.size() == 0){
-this.triad = MAJOR;
-}
-else if(elements.get(0).equals('m')){
-this.triad = MINOR;
-deleteElement();
-}
-
-
-}
-*/
 }

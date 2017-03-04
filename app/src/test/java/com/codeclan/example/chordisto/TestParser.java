@@ -84,4 +84,13 @@ public class TestParser {
         assertEquals(DFLAT, parser.getRoot());
         assertEquals(DOMINANT, parser.getTriad());
     }
+
+//      I am presently several Regex skill levels away from being able to do this at the moment.
+
+//    @Test
+//    public void testTermMajIncludedInNameDoesNotResolveMinor(){
+//        String chord = "Ebmaj7";
+//        parser.setVariables(chord);
+//        assertEquals(MAJOR, parser.getTriad());
+//    }
 }
