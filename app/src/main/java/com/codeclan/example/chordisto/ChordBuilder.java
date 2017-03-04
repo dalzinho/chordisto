@@ -10,14 +10,16 @@ import static com.codeclan.example.chordisto.TriadType.*;
 
 public class ChordBuilder {
 
-    
+    int[] major = {0, 3, 8};
+    int[] minor = {-1, 3, 8};
+    int[] dominant = {0, 3, 6};
+    ArrayList<Integer> chordTones;
 
     public ChordBuilder(){
-
+        chordTones = new ArrayList<>();
     }
 
     public ArrayList<Integer> build(String chord, Parser parser, Pitch pitch){
-        ArrayList<Integer> chordTones = new ArrayList<>();
 
         parser.setVariables(chord);
         RootName root = parser.getRoot();
@@ -25,9 +27,9 @@ public class ChordBuilder {
 
         if (parser.getTriad() == MAJOR){
             //making a second inversion major triad. here goes!
-            int third = pitch.getThirdOfMiddleRegister(root);
-            int fifth = third + 3;
-            int octave = third + 8;
+            int third = pitch.getThirdOfMiddleRegister(root) + major[0];
+            int fifth = third + major[1];
+            int octave = third + major[2];
 
             chordTones.add(third);
             chordTones.add(fifth);
