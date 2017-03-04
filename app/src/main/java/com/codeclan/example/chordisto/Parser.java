@@ -1,6 +1,7 @@
 package com.codeclan.example.chordisto;
 
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 import static com.codeclan.example.chordisto.TriadType.*;
 
@@ -11,13 +12,17 @@ import static com.codeclan.example.chordisto.TriadType.*;
 public class Parser {
 
     //instance variables
-    String root;
     ArrayList<Character> elements;
+    String root;
     TriadType triad;
+    Pattern pattern;
+
+    //constructicon
+    public Parser(){
+        pattern = Pattern.compile("([A-G][b#]?)");
+    }
 
     //getters
-
-
     public String getRoot() {
         return root;
     }
@@ -49,27 +54,27 @@ public class Parser {
 
     public void setRoot() {
 
-        this.root = null;
-
-        if (Character.toString(elements.get(0)).matches("[A-G]")) {
-            root = Character.toString(elements.get(0));
+        if (Character.toString(elements.get(0)).matches("[A-G][b#]?")) {
+            this.root = Character.toString(elements.get(0));
             deleteElement();
             if (Character.toString(elements.get(0)).matches("[#b]")) {
-                root +=  Character.toString(elements.get(1));
+                this.root += Character.toString(elements.get(1));
                 deleteElement();
             }
         }
     }
 
+    CAPTURE GROUPS!
 
 
-    public void setChordType(String chord) {
+
+    public void setTriad() {
 
         if (elements.size() == 0){
-            triad = MAJOR;
+            this.triad = MAJOR;
         }
         else if(elements.get(0).equals('m')){
-            triad = MINOR;
+            this.triad = MINOR;
             deleteElement();
         }
 

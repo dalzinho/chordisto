@@ -3,8 +3,6 @@ package com.codeclan.example.chordisto;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
-
 import static com.codeclan.example.chordisto.TriadType.*;
 import static junit.framework.Assert.assertEquals;
 
@@ -72,10 +70,11 @@ public class TestParser {
         assertEquals(MAJOR, parser.getTriad());
     }
 
-
     @Test
     public void testRecognisesMinorChords(){
         String chord = "Cm";
+        parser.setRoot();
+        parser.setTriad();
         assertEquals(MINOR, parser.getTriad());
     }
 }
