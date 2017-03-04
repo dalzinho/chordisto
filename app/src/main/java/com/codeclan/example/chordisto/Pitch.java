@@ -1,9 +1,6 @@
 package com.codeclan.example.chordisto;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.stream.IntStream;
-
 import static com.codeclan.example.chordisto.RootName.*;
 
 /**
@@ -19,7 +16,7 @@ public class Pitch {
 
     public Pitch() {
 
-
+        bassPitchNumbers = new ArrayList<>();
         //these ints are midi note names
         int start = 48;
         int last = 59;
@@ -30,17 +27,32 @@ public class Pitch {
             counter++;
         } while (counter <= last);
 
-        int start = 60;
-        int last = 83;
+        middlePitchNumbers = new ArrayList<>();
+        start = 60;
+        last = 83;
 
-        int counter = start;
+        counter = start;
+
         do {
             middlePitchNumbers.add(counter);
             counter++;
         } while (counter <= last);
 
-}
+    }
 
+    //some getters
+
+    public ArrayList<Integer> getBassPitchNumbers() {
+        return bassPitchNumbers;
+    }
+
+    public ArrayList<Integer> getMiddlePitchNumbers() {
+        return middlePitchNumbers;
+    }
+
+    public ArrayList<RootName> getRoots() {
+        return roots;
+    }
 
 
 //        bassNote = new HashMap<>();
@@ -56,7 +68,4 @@ public class Pitch {
 //        bassNote.put(A, 57);
 //        bassNote.put(ASHARP, 58);
 //        bassNote.put(B, 59);
-
-
-    }
 }

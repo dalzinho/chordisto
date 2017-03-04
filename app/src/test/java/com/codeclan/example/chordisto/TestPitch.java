@@ -11,12 +11,17 @@ import static junit.framework.Assert.assertEquals;
 
 public class TestPitch {
 
+    Parser parser;
+    Pitch pitch;
+
     @Before
-    Parser parser = new Parser();
-    Pitch pitch = new Pitch();
+    public void setup() {
+        parser = new Parser();
+        pitch = new Pitch();
+    }
 
     @Test
-    public void testThereAreElevenBassPitches(){
-        assertEquals(11, pitch.getBassPitches().length());
+    public void testThereAreElevenBassPitches() {
+        assertEquals(12, pitch.getBassPitchNumbers().size());
     }
 }
