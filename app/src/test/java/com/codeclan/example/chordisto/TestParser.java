@@ -36,9 +36,9 @@ public class TestParser {
 
     @Test
     public void testRegexGetsRootWithAccidental() {
-        String chord = "Bb";
+        String chord = "A#";
         parser.setVariables(chord);
-        assertEquals(BFLAT, parser.getRoot());
+        assertEquals(ASHARP, parser.getRoot());
     }
 
     @Test
@@ -79,11 +79,12 @@ public class TestParser {
 
     @Test
     public void testDoesNotSpitDummyWhenMoreInfoGivenThanExpected(){
-        String chord = "Db7#9b11";
+        String chord = "D#7#9b11";
         parser.setVariables(chord);
-        assertEquals(DFLAT, parser.getRoot());
+        assertEquals(DSHARP, parser.getRoot());
         assertEquals(DOMINANT, parser.getTriad());
     }
+
 
 //      I am presently several Regex skill levels away from being able to do this at the moment.
 

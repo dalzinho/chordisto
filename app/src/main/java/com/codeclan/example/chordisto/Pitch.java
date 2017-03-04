@@ -11,7 +11,6 @@ public class Pitch {
 
     ArrayList<Integer> bassPitchNumbers;
     ArrayList<Integer> middlePitchNumbers;
-
     ArrayList<RootName> roots;
 
     public Pitch() {
@@ -38,6 +37,12 @@ public class Pitch {
             counter++;
         } while (counter <= last);
 
+        roots = new ArrayList<>();
+
+        for (RootName root : RootName.values()){
+            roots.add(root);
+        }
+
     }
 
     //some getters
@@ -54,18 +59,23 @@ public class Pitch {
         return roots;
     }
 
+    public int getBassPitchByIndex(int index){
+        return bassPitchNumbers.get(index);
+    }
 
-//        bassNote = new HashMap<>();
-//        bassNote.put(C, 48);
-//        bassNote.put(CSHARP, 49);
-//        bassNote.put(D, 50);
-//        bassNote.put(DSHARP, 51);
-//        bassNote.put(E, 52);
-//        bassNote.put(F, 53);
-//        bassNote.put(FSHARP, 54);
-//        bassNote.put(G, 55);
-//        bassNote.put(GSHARP, 56);
-//        bassNote.put(A, 57);
-//        bassNote.put(ASHARP, 58);
-//        bassNote.put(B, 59);
+    public int getRootIndexByName(RootName root){
+        return roots.indexOf(root);
+    }
+
+    public int getBassValue(RootName root){
+        return bassPitchNumbers.get(getRootIndexByName(root));
+    }
+
+    public int getMiddlePitchByIndex(int index){
+        return middlePitchNumbers.get(index);
+    }
+
+    public int getThirdOfMiddleRegister(RootName root){
+        return middlePitchNumbers.get(getRootIndexByName(root) + 4);
+    }
 }

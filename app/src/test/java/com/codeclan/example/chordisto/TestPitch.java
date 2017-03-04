@@ -29,4 +29,9 @@ public class TestPitch {
     public void testThereAreTwentyFourMiddlePitches(){
         assertEquals(24, pitch.getMiddlePitchNumbers().size());
     }
+
+    @Test
+    public void testThereAreTwelveRootEnums(){
+        assertEquals(12, pitch.getRoots().size());
+    }
 }
