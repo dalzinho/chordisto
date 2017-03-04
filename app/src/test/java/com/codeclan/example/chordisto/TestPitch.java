@@ -21,7 +21,12 @@ public class TestPitch {
     }
 
     @Test
-    public void testThereAreElevenBassPitches() {
+    public void testThereAreTwelveBassPitches() {
         assertEquals(12, pitch.getBassPitchNumbers().size());
+    }
+
+    @Test
+    public void testThereAreTwentyFourMiddlePitches(){
+        assertEquals(24, pitch.getMiddlePitchNumbers().size());
     }
 }
