@@ -20,7 +20,7 @@ public class Parser {
 
     //constructicon
     public Parser(){
-        pattern = Pattern.compile("([A-G][b#]?)");
+        pattern = Pattern.compile("([A-G][#b]?)");
     }
 
     //getters

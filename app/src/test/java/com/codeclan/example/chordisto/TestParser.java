@@ -40,7 +40,7 @@ public class TestParser {
         assertEquals("Bb", parser.getRoot());
 
         String otherChord = "F#";
-        parser.run(chord);
+        parser.run(otherChord);
         assertEquals("F#", parser.getRoot());
     }
 
