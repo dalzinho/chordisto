@@ -10,33 +10,46 @@ import static com.codeclan.example.chordisto.TriadType.*;
 
 public class ChordBuilder {
 
-    int[] major = {0, 3, 8};
-    int[] minor = {-1, 3, 8};
-    int[] dominant = {0, 3, 6};
-    ArrayList<Integer> chordTones;
-
-    public ChordBuilder(){
-        chordTones = new ArrayList<>();
-    }
 
     public ArrayList<Integer> build(String chord, Parser parser, Pitch pitch){
 
+        ArrayList<Integer> chordTones = new ArrayList<>();
+
         parser.setVariables(chord);
         RootName root = parser.getRoot();
+        TriadType triad = parser.getTriad();
+        int[] offset = setChordToneOffset(triad);
+
         chordTones.add(pitch.getBassValue(root));
+        int third = pitch.getThirdOfMiddleRegister(root);
 
-        if (parser.getTriad() == MAJOR){
-            //making a second inversion major triad. here goes!
-            int third = pitch.getThirdOfMiddleRegister(root) + major[0];
-            int fifth = third + major[1];
-            int octave = third + major[2];
+        int chordToneThree = third + offset[0];
+        int chordToneFive = third + offset[1];
+        int octave = third + offset[2];
 
-            chordTones.add(third);
-            chordTones.add(fifth);
-            chordTones.add(octave);
-        }
+        chordTones.add(chordToneThree);
+        chordTones.add(chordToneFive);
+        chordTones.add(octave);
 
         return chordTones;
+    }
+
+    private int[] setChordToneOffset(TriadType triadType){
+
+        int[] major = {0, 3, 8};
+        int[] minor = {-1, 3, 8};
+        int[] dominant = {0, 3, 6};
+
+        switch(triadType){
+            case MAJOR:
+                return major;
+            case MINOR:
+                return minor;
+            case DOMINANT:
+                return dominant;
+        }
+
+        return null;
     }
 
 }

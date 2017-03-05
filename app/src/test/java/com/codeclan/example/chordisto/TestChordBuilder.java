@@ -7,13 +7,14 @@ import java.util.ArrayList;
 
 import static com.codeclan.example.chordisto.RootName.*;
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
 /**
  * Created by user on 03/03/2017.
  */
 
-public class TestChord {
+public class TestChordBuilder {
 
     Pitch pitch;
     Parser parser;
@@ -39,11 +40,17 @@ public class TestChord {
         assertTrue(chordTones.contains(66));
         assertTrue(chordTones.contains(69));
         assertTrue(chordTones.contains(74));
+        assertFalse(chordTones.contains(73));
     }
 
     @Test
     public void testPullsCorrectTonesForMinorChords(){
-
+        ArrayList<Integer> chordTones = chordBuilder.build("Em", parser, pitch);
+        assertTrue(chordTones.contains(52));
+        assertTrue(chordTones.contains(67));
+        assertTrue(chordTones.contains(71));
+        assertTrue(chordTones.contains(76));
+        assertFalse(chordTones.contains(56));
     }
 
 }
