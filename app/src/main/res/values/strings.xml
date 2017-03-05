@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Chordisto</string>
+    <string name="playButtonText">Play the thing!</string>
 </resources>

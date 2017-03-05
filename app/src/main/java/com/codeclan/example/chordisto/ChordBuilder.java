@@ -23,7 +23,7 @@ public class ChordBuilder {
         chordTones.add(pitch.getBassValue(root));
         int third = pitch.getThirdOfMiddleRegister(root);
 
-        int chordToneThree = third + offset[0];
+        Integer chordToneThree = (third + offset[0]);
         int chordToneFive = third + offset[1];
         int octave = third + offset[2];
 
