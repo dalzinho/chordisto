@@ -53,4 +53,14 @@ public class TestChordBuilder {
         assertFalse(chordTones.contains(56));
     }
 
+    @Test
+    public void testReturnsDominantMidiNotes(){
+        ArrayList<Integer> chordTones = chordBuilder.build("G7", parser, pitch);
+        assertTrue(chordTones.contains(55));
+        assertTrue(chordTones.contains(71));
+        assertTrue(chordTones.contains(74));
+        assertTrue(chordTones.contains(77));
+        assertFalse(chordTones.contains(73));
+    }
+
 }
