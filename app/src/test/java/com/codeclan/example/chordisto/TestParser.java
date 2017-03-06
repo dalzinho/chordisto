@@ -30,59 +30,64 @@ public class TestParser {
     @Test
     public void testRegexGetsSimpleRoot() {
         String chord = "C";
-        parser.setVariables(chord);
-        assertEquals(C, parser.getRoot());
+        Chordable[] chordInfo = Parser.setVariables(chord);
+        assertEquals(C, (RootName) chordInfo[0]);
     }
 
     @Test
     public void testRegexGetsRootWithAccidental() {
         String chord = "A#";
-        parser.setVariables(chord);
-        assertEquals(ASHARP, parser.getRoot());
+        Chordable[] chordInfo = Parser.setVariables(chord);
+        assertEquals(ASHARP, chordInfo[0]);
     }
 
     @Test
     public void testRootCanBeSharp() {
-        String otherChord = "F#";
-        parser.setVariables(otherChord);
-        assertEquals(FSHARP, parser.getRoot());
+        String chord = "F#";
+        Chordable[] chordInfo = Parser.setVariables(chord);
+        assertEquals(FSHARP, chordInfo[0]);
     }
 
 
     @Test
     public void testGetRootFromLongerSymbol() {
         String chord = "Gm";
-        parser.setVariables(chord);
-        assertEquals(G, parser.getRoot());
+        Chordable[] chordInfo = Parser.setVariables(chord);
+
+        assertEquals(G, chordInfo[0]);
     }
 
     @Test
     public void testSetTriadMAJOREdition() {
         String chord = "G";
-        parser.setVariables(chord);
-        assertEquals(MAJOR, parser.getTriad());
+        Chordable[] chordInfo = Parser.setVariables(chord);
+
+        assertEquals(MAJOR, chordInfo[1]);
     }
 
     @Test
     public void testSetTriadMinorEdition() {
         String chord = "Gm";
-        parser.setVariables(chord);
-        assertEquals(MINOR, parser.getTriad());
+        Chordable[] chordInfo = Parser.setVariables(chord);
+
+        assertEquals(MINOR, chordInfo[1]);
     }
 
     @Test
     public void testSetDominantTriad() {
         String chord = "F#7";
-        parser.setVariables(chord);
-        assertEquals(DOMINANT, parser.getTriad());
+        Chordable[] chordInfo = Parser.setVariables(chord);
+
+        assertEquals(DOMINANT, chordInfo[1]);
     }
 
     @Test
     public void testDoesNotSpitDummyWhenMoreInfoGivenThanExpected(){
         String chord = "D#7#9b11";
-        parser.setVariables(chord);
-        assertEquals(DSHARP, parser.getRoot());
-        assertEquals(DOMINANT, parser.getTriad());
+        Chordable[] chordInfo = Parser.setVariables(chord);
+
+        assertEquals(DSHARP, chordInfo[0]);
+        assertEquals(DOMINANT, chordInfo[1]);
     }
 
 

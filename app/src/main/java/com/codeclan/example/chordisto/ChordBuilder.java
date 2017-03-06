@@ -11,25 +11,29 @@ import static com.codeclan.example.chordisto.TriadType.*;
 public class ChordBuilder {
 
 
-    public ArrayList<Integer> build(String chord, Parser parser, Pitch pitch){
+    public ArrayList<Byte> build(String chord, Pitch pitch){
 
-        ArrayList<Integer> chordTones = new ArrayList<>();
+        //instantiate byte array of chord tones
+        ArrayList<Byte> chordTones = new ArrayList<>();
 
-        parser.setVariables(chord);
-        RootName root = parser.getRoot();
-        TriadType triad = parser.getTriad();
-        int[] offset = setChordToneOffset(triad);
+        //get root and triad info from parser, unpack and cast into usuable types
+        Chordable[] chordInfo = Parser.setVariables(chord);
+        RootName rootName = (RootName) chordInfo[0];
+        TriadType triadType = (TriadType) chordInfo[1];
 
-        chordTones.add(pitch.getBassValue(root));
-        int third = pitch.getThirdOfMiddleRegister(root);
+        //get offsets from offset method
+        int[] offset = setChordToneOffset(triadType);
 
-        Integer chordToneThree = (third + offset[0]);
-        int chordToneFive = third + offset[1];
-        int octave = third + offset[2];
+        Integer bassPitch = (pitch.getBassValue(rootName));
+        Integer majorThird = pitch.getThirdOfMiddleRegister(rootName);
+        Integer third = (majorThird + offset[0]);
+        Integer fifth = majorThird + offset[1];
+        Integer topNote = majorThird + offset[2];
 
-        chordTones.add(chordToneThree);
-        chordTones.add(chordToneFive);
-        chordTones.add(octave);
+        chordTones.add(bassPitch.byteValue());
+        chordTones.add(third.byteValue());
+        chordTones.add(fifth.byteValue());
+        chordTones.add(topNote.byteValue());
 
         return chordTones;
     }

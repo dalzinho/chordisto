@@ -12,9 +12,9 @@ import static com.codeclan.example.chordisto.TriadType.*;
 public class Parser {
 
     //instance variables
-    private RootName root;
-    private TriadType triad;
-    private Pattern pattern;
+    private static RootName root;
+    private static TriadType triad;
+    private static Pattern pattern;
 
     //constructicon
     public Parser() {
@@ -31,11 +31,11 @@ public class Parser {
     }
 
     //los métodos
-    public String[] splitString(String string) {
+    String[] splitString(String string) {
         return string.split("[, ]+");
     }
 
-    private void setRoot(String rootInfo) {
+    private static RootName setRoot(String rootInfo) {
         String enumFormat;
         String tonality = null;
         String accidentality = null;
@@ -62,11 +62,12 @@ public class Parser {
             enumFormat = tonality;
         }
 
-        root = RootName.valueOf(enumFormat);
+        return RootName.valueOf(enumFormat);
 
     }
 
-    private void setTriad(String triadInfo) {
+    private static TriadType setTriad(String triadInfo) {
+        triad = null;
         if (triadInfo == null) {
             triad = MAJOR;
         } else if (triadInfo.equals("m")) {
@@ -74,21 +75,22 @@ public class Parser {
         } else if (triadInfo.equals("7")) {
             triad = DOMINANT;
         }
+        return triad;
     }
 
 
-    public void setVariables(String chord) {
-        String triadType = null;
-        String rootName = null;
+    public static Chordable[] setVariables(String chord) {
+        TriadType triadType = null;
+        RootName rootName = null;
         String theRest = null;
         Matcher m = pattern.matcher(chord);
         if (m.matches()) {
-            rootName = m.group(1);
-            triadType = m.group(2);
+            rootName = setRoot(m.group(1));
+            triadType = setTriad(m.group(2));
             theRest = m.group(3);
         }
 
-        setRoot(rootName);
-        setTriad(triadType);
+        Chordable[] chordInfo = {rootName, triadType};
+        return chordInfo;
     }
 }

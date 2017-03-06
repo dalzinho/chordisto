@@ -17,35 +17,29 @@ import static junit.framework.Assert.assertTrue;
 public class TestChordBuilder {
 
     Pitch pitch;
-    Parser parser;
     ChordBuilder chordBuilder;
 
     @Before
     public void setup(){
         pitch = new Pitch();
-        parser = new Parser();
         chordBuilder = new ChordBuilder();
     }
 
     @Test
     public void testAskingForChordReturnsFourNumbers(){
-        ArrayList<Integer> chordTones = chordBuilder.build("C", parser, pitch);
+        ArrayList<Byte> chordTones = chordBuilder.build("C", pitch);
         assertEquals(4, chordTones.size());
     }
 
     @Test
     public void testAskingForMajorChordReturnsTheCorrectNumbers(){
-        ArrayList<Integer> chordTones = chordBuilder.build("D", parser, pitch);
-        assertTrue(chordTones.contains(50));
-        assertTrue(chordTones.contains(66));
-        assertTrue(chordTones.contains(69));
-        assertTrue(chordTones.contains(74));
-        assertFalse(chordTones.contains(73));
+        ArrayList<Byte> chordTones = chordBuilder.build("D", pitch);
+        assertTrue(chordTones.contains((byte) 0x32));
     }
 
     @Test
     public void testPullsCorrectTonesForMinorChords(){
-        ArrayList<Integer> chordTones = chordBuilder.build("Em", parser, pitch);
+        ArrayList<Byte> chordTones = chordBuilder.build("Em", pitch);
         assertTrue(chordTones.contains(52));
         assertTrue(chordTones.contains(67));
         assertTrue(chordTones.contains(71));
@@ -55,7 +49,7 @@ public class TestChordBuilder {
 
     @Test
     public void testReturnsDominantMidiNotes(){
-        ArrayList<Integer> chordTones = chordBuilder.build("G7", parser, pitch);
+        ArrayList<Byte> chordTones = chordBuilder.build("G7", pitch);
         assertTrue(chordTones.contains(55));
         assertTrue(chordTones.contains(71));
         assertTrue(chordTones.contains(74));
