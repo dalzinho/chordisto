@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
 import org.billthefarmer.mididriver.MidiDriver;
 
@@ -18,6 +19,7 @@ public class MainActivity extends AppCompatActivity implements MidiDriver.OnMidi
 
     private int[] config;
     private Button buttonPlayNote;
+    private EditText chordsInput;
     private ArrayList<Integer> chordTones;
 
     @Override
@@ -27,6 +29,8 @@ public class MainActivity extends AppCompatActivity implements MidiDriver.OnMidi
 
         buttonPlayNote = (Button) findViewById(R.id.buttonPlayChord);
         buttonPlayNote.setOnTouchListener(this);
+
+        chordsInput = (EditText)findViewById(R.id.chord_input_area);
 
         midiDriver = new MidiDriver();
         midiDriver.setOnMidiStartListener(this);
