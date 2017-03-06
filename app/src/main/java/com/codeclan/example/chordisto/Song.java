@@ -6,13 +6,17 @@ package com.codeclan.example.chordisto;
 
 public class Song {
 
-    String title;
+    String songTitle;
     String chords;
     int id;
 
-    public Song(int id, String title, String chords){
+    public Song(){
+        //hooray for method overloading.
+    }
+
+    public Song(int id, String songTitle, String chords){
         this.id = id;
-        this.title = title;
+        this.songTitle = songTitle;
         this.chords = chords;
     }
 
@@ -21,8 +25,8 @@ public class Song {
         return id;
     }
 
-    public String getTitle() {
-        return title;
+    public String getSongTitle() {
+        return songTitle;
     }
 
     public String getChords() {
@@ -31,8 +35,8 @@ public class Song {
 
     //setters
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setSongTitle(String songTitle) {
+        this.songTitle = songTitle;
     }
 
     public void setChords(String chords) {
