@@ -42,6 +42,7 @@
     <Button
         android:id="@+id/save_to_songbook_button"
         android:onClick="saveToSongBook"
+        android:text="Save to Songbook"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

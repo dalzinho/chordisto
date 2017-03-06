@@ -15,6 +15,8 @@ import java.util.List;
 
 public class DatabaseHandler extends SQLiteOpenHelper {
 
+    // this was coded by hand, but based on the tutorial I read here: http://www.androidhive.info/2011/11/android-sqlite-database-tutorial/
+
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "songBook";
     private static final String TABLE_SONGS = "songs";
@@ -22,6 +24,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String KEY_ID = "id";
     private static final String KEY_SONG_TITLE = "songTitle";
     private static final String KEY_CHORDS = "chords";
+    private static final String KEY_TEMPO = "tempo";
+    private static final String KEY_LOOPS = "loops";
 
     public DatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -29,7 +33,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        String CREATE_SONGS_TABLE = "CREATE TABLE " + TABLE_SONGS + "(" + KEY_ID + " INTEGER PRIMARY KEY, " + KEY_SONG_TITLE + " TEXT, " + TABLE_SONGS + " TEXT);";
+        String CREATE_SONGS_TABLE = "CREATE TABLE " + TABLE_SONGS + "(" + KEY_ID + " INTEGER PRIMARY KEY, " + KEY_SONG_TITLE + " TEXT, " + KEY_CHORDS + " TEXT, " + KEY_TEMPO + " INTEGER, " + KEY_LOOPS + "INTEGER);";
         sqLiteDatabase.execSQL(CREATE_SONGS_TABLE);
     }
 
@@ -45,6 +49,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         contentValues.put(KEY_SONG_TITLE, song.getSongTitle());
         contentValues.put(KEY_CHORDS, song.getChords());
+        contentValues.put(KEY_TEMPO, song.getTempo());
+        contentValues.put(KEY_LOOPS, song.getLoops());
 
         db.insert(TABLE_SONGS, null, contentValues);
         db.close();
@@ -53,12 +59,17 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public Song getSong(int id){
         SQLiteDatabase db = this.getReadableDatabase();
 
-        Cursor cursor = db.query(TABLE_SONGS, new String[] {KEY_ID, KEY_SONG_TITLE, KEY_CHORDS}, KEY_ID + "=?",
+        Cursor cursor = db.query(TABLE_SONGS, new String[] {KEY_ID, KEY_SONG_TITLE, KEY_CHORDS, KEY_TEMPO, KEY_LOOPS}, KEY_ID + "=?",
                 new String[] {String.valueOf(id)}, null, null, null, null);
         if (cursor != null)
             cursor.moveToFirst();
 
-        Song song = new Song(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2));
+        Song song = new Song
+                (Integer.parseInt(cursor.getString(0)),
+                cursor.getString(1),
+                cursor.getString(2),
+                Integer.parseInt(cursor.getString(3)),
+                Integer.parseInt(cursor.getString(4)));
         return song;
     };
 
@@ -75,17 +86,30 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 song.setId(Integer.parseInt(cursor.getString(0)));
                 song.setSongTitle(cursor.getString(1));
                 song.setChords(cursor.getString(2));
+                song.setTempo(Integer.parseInt(cursor.getString(3)));
+                song.setTempo(Integer.parseInt(cursor.getString(4)));
             } while (cursor.moveToNext());
         }
         return songList;
     };
 
     public int updateSong(Song song){
+        SQLiteDatabase db = this.getWritableDatabase();
 
-    };
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(KEY_SONG_TITLE, song.getSongTitle());
+        contentValues.put(KEY_CHORDS, song.getChords());
+        contentValues.put(KEY_TEMPO, song.getTempo());
+        contentValues.put(KEY_LOOPS, song.getLoops());
+
+        return db.update(TABLE_SONGS, contentValues, KEY_ID + "=?", new String[] {String.valueOf(song.getId())});
+    }
 
     public void deleteSong(Song song){
+        SQLiteDatabase db = this.getWritableDatabase();
 
+        db.delete(TABLE_SONGS, KEY_ID + "=?", new String[] {String.valueOf(song.getId())});
+        db.close();
     };
 }
 

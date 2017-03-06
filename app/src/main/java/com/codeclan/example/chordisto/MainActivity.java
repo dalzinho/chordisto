@@ -129,6 +129,13 @@ public class MainActivity extends AppCompatActivity {
         SaveLastSequenceToPreferences.setStoredSequence(this,chordsInput.getText().toString());
     }
 
+
+    public void saveToSongBook(){
+
+        DatabaseHandler dbHandler = new DatabaseHandler(this);
+        
+    }
+
 }
 
 
