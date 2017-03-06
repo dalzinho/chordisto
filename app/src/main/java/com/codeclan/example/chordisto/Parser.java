@@ -21,7 +21,7 @@ public class Parser {
     //getters
 
     //los métodos
-    String[] splitString(String string) {
+    public static String[] splitString(String string) {
         return string.split("[, ]+");
     }
 

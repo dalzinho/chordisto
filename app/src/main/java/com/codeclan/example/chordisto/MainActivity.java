@@ -106,7 +106,15 @@ public class MainActivity extends AppCompatActivity implements MidiDriver.OnMidi
 
         if (view.getId() == R.id.buttonPlayChord) {
                 Log.d(this.getClass().getName(), "MotionEvent.ACTION_DOWN");
-                playChord("G7");
+                String[] playTheseChords = Parser.splitString(chordsInput.getText().toString());
+                for (String currentChord : playTheseChords){
+                    playChord(currentChord);
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
 
             return false;
