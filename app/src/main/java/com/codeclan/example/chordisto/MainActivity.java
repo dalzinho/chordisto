@@ -121,7 +121,9 @@ public class MainActivity extends AppCompatActivity {
                 }
                 while (beatCount < 4);
             }
+
             loopCounter++;
+
         } while (loopCounter < loopLimit);
 
         SaveLastSequenceToPreferences.setStoredSequence(this,chordsInput.getText().toString());
