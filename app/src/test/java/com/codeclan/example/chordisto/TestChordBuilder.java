@@ -40,21 +40,14 @@ public class TestChordBuilder {
     @Test
     public void testPullsCorrectTonesForMinorChords(){
         ArrayList<Byte> chordTones = chordBuilder.build("Em", pitch);
-        assertTrue(chordTones.contains(52));
-        assertTrue(chordTones.contains(67));
-        assertTrue(chordTones.contains(71));
-        assertTrue(chordTones.contains(76));
-        assertFalse(chordTones.contains(56));
+        assertTrue(chordTones.contains((byte) 0x34));
     }
 
     @Test
     public void testReturnsDominantMidiNotes(){
         ArrayList<Byte> chordTones = chordBuilder.build("G7", pitch);
-        assertTrue(chordTones.contains(55));
-        assertTrue(chordTones.contains(71));
-        assertTrue(chordTones.contains(74));
-        assertTrue(chordTones.contains(77));
-        assertFalse(chordTones.contains(73));
+        assertTrue(chordTones.contains((byte) 0x37));
+
     }
 
 }

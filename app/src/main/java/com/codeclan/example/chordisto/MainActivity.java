@@ -15,13 +15,9 @@ public class MainActivity extends AppCompatActivity implements MidiDriver.OnMidi
         View.OnTouchListener {
 
     private MidiDriver midiDriver;
-    private byte[] bassRoot;
-    private byte[] third;
-    private byte[] fifth;
-    private byte[] topNote;
+
     private int[] config;
     private Button buttonPlayNote;
-    private Integer velocity;
     private ArrayList<Integer> chordTones;
 
     @Override
@@ -60,38 +56,41 @@ public class MainActivity extends AppCompatActivity implements MidiDriver.OnMidi
         Log.d(this.getClass().getName(), "onMidiStart()");
     }
 
-    private void playChord() {
+    private void playChord(String inputChord) {
 
-//        Parser parser = new Parser();
-//        Pitch pitch = new Pitch();
-//        ChordBuilder chordBuilder = new ChordBuilder();
-//        chordTones = chordBuilder.build("F7", pitch);
-//
-//        velocity = 127;
-//        bassRoot = new byte[3];
-//        bassRoot[0] = (byte) (0x90 | 0x00);
-//        bassRoot[1] = chordTones.get(0).byteValue();  //this byteValue business takes the note int and converts it so i don't have to
-//        bassRoot[2] = velocity.byteValue();
-//
-//        third = new byte[3];
-//        third[0] = (byte) (0x90 | 0x00);
-//        third[1] = chordTones.get(1).byteValue();
-//        third[2] = velocity.byteValue();
-//
-//        fifth = new byte[3];
-//        fifth[0] = (byte) (0x90 | 0x00);
-//        fifth[1] = chordTones.get(2).byteValue();
-//        fifth[2] = velocity.byteValue();
-//
-//        topNote = new byte[3];
-//        topNote[0] = (byte) (0x90 | 0x00);
-//        topNote[1] = chordTones.get(3).byteValue();
-//        topNote[2] = velocity.byteValue();
-//
-//        midiDriver.write(bassRoot);
-//        midiDriver.write(third);
-//        midiDriver.write(fifth);
-//        midiDriver.write(topNote);
+        Pitch pitch = new Pitch();
+        ChordBuilder chordBuilder = new ChordBuilder();
+        Chord chord = chordBuilder.build(inputChord, pitch);
+        byte[] bassRoot;
+        byte[] third;
+        byte[] fifth;
+        byte[] topNote;
+
+        Integer velocity = 127;
+        bassRoot = new byte[3];
+        bassRoot[0] = (byte) (0x90 | 0x00);
+        bassRoot[1] = chord.root();  //this byteValue business takes the note int and converts it so i don't have to
+        bassRoot[2] = velocity.byteValue();
+
+        third = new byte[3];
+        third[0] = (byte) (0x90 | 0x00);
+        third[1] = chord.third();
+        third[2] = velocity.byteValue();
+
+        fifth = new byte[3];
+        fifth[0] = (byte) (0x90 | 0x00);
+        fifth[1] = chord.fifth();
+        fifth[2] = velocity.byteValue();
+
+        topNote = new byte[3];
+        topNote[0] = (byte) (0x90 | 0x00);
+        topNote[1] = chord.topNote();
+        topNote[2] = velocity.byteValue();
+
+        midiDriver.write(bassRoot);
+        midiDriver.write(third);
+        midiDriver.write(fifth);
+        midiDriver.write(topNote);
 
 
     }
@@ -103,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements MidiDriver.OnMidi
 
         if (view.getId() == R.id.buttonPlayChord) {
                 Log.d(this.getClass().getName(), "MotionEvent.ACTION_DOWN");
-                playChord();
+                playChord("G7");
             }
 
             return false;

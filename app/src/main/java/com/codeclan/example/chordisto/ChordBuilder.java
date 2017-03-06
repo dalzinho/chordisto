@@ -11,7 +11,7 @@ import static com.codeclan.example.chordisto.TriadType.*;
 public class ChordBuilder {
 
 
-    public ArrayList<Byte> build(String chord, Pitch pitch){
+    public Chord build(String chord, Pitch pitch){
 
         //instantiate byte array of chord tones
         ArrayList<Byte> chordTones = new ArrayList<>();
@@ -35,7 +35,8 @@ public class ChordBuilder {
         chordTones.add(fifth.byteValue());
         chordTones.add(topNote.byteValue());
 
-        return chordTones;
+        Chord returnChord = new Chord(chordTones.get(0), chordTones.get(1), chordTones.get(2), chordTones.get(3));
+        return returnChord;
     }
 
     private int[] setChordToneOffset(TriadType triadType){

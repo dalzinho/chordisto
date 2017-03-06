@@ -17,4 +17,20 @@ public class Chord {
         this.fifth = fifth;
         this.topNote = topNote;
     }
+
+    public byte root() {
+        return root;
+    }
+
+    public byte third() {
+        return third;
+    }
+
+    public byte fifth() {
+        return fifth;
+    }
+
+    public byte topNote() {
+        return topNote;
+    }
 }

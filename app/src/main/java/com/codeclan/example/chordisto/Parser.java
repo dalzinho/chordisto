@@ -12,23 +12,13 @@ import static com.codeclan.example.chordisto.TriadType.*;
 public class Parser {
 
     //instance variables
-    private static RootName root;
     private static TriadType triad;
-    private static Pattern pattern;
-
     //constructicon
     public Parser() {
-        pattern = Pattern.compile("([A-G][b#]?)([m7])?(.*)");
+
     }
 
     //getters
-    public RootName getRoot() {
-        return root;
-    }
-
-    public TriadType getTriad() {
-        return triad;
-    }
 
     //los métodos
     String[] splitString(String string) {
@@ -83,6 +73,7 @@ public class Parser {
         TriadType triadType = null;
         RootName rootName = null;
         String theRest = null;
+        Pattern pattern = Pattern.compile("([A-G][b#]?)([m7])?(.*)");
         Matcher m = pattern.matcher(chord);
         if (m.matches()) {
             rootName = setRoot(m.group(1));
