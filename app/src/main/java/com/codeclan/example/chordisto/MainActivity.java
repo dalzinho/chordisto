@@ -103,19 +103,26 @@ public class MainActivity extends AppCompatActivity {
         Integer tempo = 60000 / (Integer.parseInt(tempoInput.getText().toString()));
 
         String[] playTheseChords = Parser.splitString(chordsInput.getText().toString());
-        for (String currentChord : playTheseChords) {
-            int beatCount = 0;
-            do {
-                playChord(currentChord);
-                try {
-                    Thread.sleep(tempo);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+        int loopCounter = 0;
+        int loopLimit = Integer.parseInt(loopsInput.getText().toString());
+
+        do {
+
+            for (String currentChord : playTheseChords) {
+                int beatCount = 0;
+                do {
+                    playChord(currentChord);
+                    try {
+                        Thread.sleep(tempo);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    beatCount++;
                 }
-                beatCount++;
+                while (beatCount < 4);
             }
-            while (beatCount < 4);
-        }
+            loopCounter++;
+        } while (loopCounter < loopLimit);
 
         SaveLastSequenceToPreferences.setStoredSequence(this,chordsInput.getText().toString());
     }

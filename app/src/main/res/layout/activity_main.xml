@@ -39,5 +39,10 @@
         tools:layout_editor_absoluteX="8dp"
         tools:layout_editor_absoluteY="0dp" />
 
+    <Button
+        android:id="@+id/save_to_songbook_button"
+        android:onClick="saveToSongBook"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>
