@@ -29,7 +29,7 @@ public class Parser {
         String enumFormat;
         String tonality = null;
         String accidentality = null;
-        Pattern rootPattern = Pattern.compile("([A-G])([b#]?)");
+        Pattern rootPattern = Pattern.compile("([a-gA-G])([b#]?)");
         Matcher m = rootPattern.matcher(rootInfo);
 
         if (m.matches()) {
@@ -73,10 +73,10 @@ public class Parser {
         TriadType triadType = null;
         RootName rootName = null;
         String theRest = null;
-        Pattern pattern = Pattern.compile("([A-G][b#]?)([m7])?(.*)");
+        Pattern pattern = Pattern.compile("([A-Ga-g][b#]?)([m7])?(.*)");
         Matcher m = pattern.matcher(chord);
         if (m.matches()) {
-            rootName = setRoot(m.group(1));
+            rootName = setRoot(m.group(1).toUpperCase());
             triadType = setTriad(m.group(2));
             theRest = m.group(3);
         }

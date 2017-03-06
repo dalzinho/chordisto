@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity implements MidiDriver.OnMidi
     private int[] config;
     private Button buttonPlayNote;
     private EditText chordsInput;
+    private EditText tempoInput;
     private ArrayList<Integer> chordTones;
 
     @Override
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements MidiDriver.OnMidi
         buttonPlayNote.setOnTouchListener(this);
 
         chordsInput = (EditText)findViewById(R.id.chord_input_area);
+        tempoInput = (EditText)findViewById(R.id.tempo_input);
 
         midiDriver = new MidiDriver();
         midiDriver.setOnMidiStartListener(this);
@@ -106,11 +108,12 @@ public class MainActivity extends AppCompatActivity implements MidiDriver.OnMidi
 
         if (view.getId() == R.id.buttonPlayChord) {
                 Log.d(this.getClass().getName(), "MotionEvent.ACTION_DOWN");
+                Integer tempo = 60000 / (Integer.parseInt(tempoInput.getText().toString()));
                 String[] playTheseChords = Parser.splitString(chordsInput.getText().toString());
                 for (String currentChord : playTheseChords){
                     playChord(currentChord);
                     try {
-                        Thread.sleep(1000);
+                        Thread.sleep(tempo);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
