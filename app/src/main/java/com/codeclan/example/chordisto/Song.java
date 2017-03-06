@@ -8,10 +8,17 @@ public class Song {
 
     String title;
     String chords;
+    int id;
 
-    public Song(String title, String chords){
+    public Song(int id, String title, String chords){
+        this.id = id;
         this.title = title;
         this.chords = chords;
+    }
+
+    //getters
+    public int getId() {
+        return id;
     }
 
     public String getTitle() {
@@ -20,5 +27,19 @@ public class Song {
 
     public String getChords() {
         return chords;
+    }
+
+    //setters
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setChords(String chords) {
+        this.chords = chords;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }
