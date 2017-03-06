@@ -12,8 +12,7 @@ import org.billthefarmer.mididriver.MidiDriver;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements MidiDriver.OnMidiStartListener,
-        View.OnTouchListener {
+public class MainActivity extends AppCompatActivity {
 
     private MidiDriver midiDriver;
 
@@ -21,6 +20,7 @@ public class MainActivity extends AppCompatActivity implements MidiDriver.OnMidi
     private Button buttonPlayNote;
     private EditText chordsInput;
     private EditText tempoInput;
+    private EditText loopsInput;
     private ArrayList<Integer> chordTones;
 
     @Override
@@ -29,13 +29,14 @@ public class MainActivity extends AppCompatActivity implements MidiDriver.OnMidi
         setContentView(R.layout.activity_main);
 
         buttonPlayNote = (Button) findViewById(R.id.buttonPlayChord);
-        buttonPlayNote.setOnTouchListener(this);
 
-        chordsInput = (EditText)findViewById(R.id.chord_input_area);
-        tempoInput = (EditText)findViewById(R.id.tempo_input);
+        chordsInput = (EditText) findViewById(R.id.chord_input_area);
+        tempoInput = (EditText) findViewById(R.id.tempo_input);
+        loopsInput = (EditText) findViewById(R.id.loops_input);
+
 
         midiDriver = new MidiDriver();
-        midiDriver.setOnMidiStartListener(this);
+        chordsInput.setText(SaveLastSequenceToPreferences.getStoredSequence(this));
     }
 
     @Override
@@ -55,11 +56,6 @@ public class MainActivity extends AppCompatActivity implements MidiDriver.OnMidi
     protected void onPause() {
         super.onPause();
         midiDriver.stop();
-    }
-
-    @Override
-    public void onMidiStart() {
-        Log.d(this.getClass().getName(), "onMidiStart()");
     }
 
     private void playChord(String inputChord) {
@@ -101,46 +97,30 @@ public class MainActivity extends AppCompatActivity implements MidiDriver.OnMidi
 
     }
 
-    @Override
-    public boolean onTouch(View view, MotionEvent motionEvent) {
+    public void playMusic(View button) {
 
-        Log.d(this.getClass().getName(), "Motion event: " + motionEvent);
 
-        if (view.getId() == R.id.buttonPlayChord) {
-                Log.d(this.getClass().getName(), "MotionEvent.ACTION_DOWN");
+        Integer tempo = 60000 / (Integer.parseInt(tempoInput.getText().toString()));
 
-                Integer tempo = 60000 / (Integer.parseInt(tempoInput.getText().toString()));
-
-                String[] playTheseChords = Parser.splitString(chordsInput.getText().toString());
-                for (String currentChord : playTheseChords){
-                    playChord(currentChord);
-                    try {
-                        Thread.sleep(tempo);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    playChord(currentChord);
-                    try {
-                        Thread.sleep(tempo);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    playChord(currentChord);
-                    try {
-                        Thread.sleep(tempo);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    playChord(currentChord);
-                    try {
-                        Thread.sleep(tempo);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-
+        String[] playTheseChords = Parser.splitString(chordsInput.getText().toString());
+        for (String currentChord : playTheseChords) {
+            int beatCount = 0;
+            do {
+                playChord(currentChord);
+                try {
+                    Thread.sleep(tempo);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
+                beatCount++;
             }
-
-            return false;
+            while (beatCount < 4);
         }
+
+        SaveLastSequenceToPreferences.setStoredSequence(this,chordsInput.getText().toString());
     }
+
+}
+
+
+

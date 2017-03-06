@@ -3,4 +3,5 @@
     <string name="playButtonText">Play the thing!</string>
     <string name="chord_input_hint">Type in some chords, separate with commas</string>
     <string name="tempo_hint">Tempo</string>
+    <string name="number_of_loops_hint">How many loops?</string>
 </resources>

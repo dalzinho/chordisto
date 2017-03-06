@@ -75,7 +75,7 @@ public class Parser {
         TriadType triadType = null;
         RootName rootName = null;
         String theRest = null;
-        Pattern pattern = Pattern.compile("([A-Ga-g][b#]?)([m7oø+])?");
+        Pattern pattern = Pattern.compile("([A-Ga-g][b#]?)([m7oø+])?(.*)");
         Matcher m = pattern.matcher(chord);
         if (m.matches()) {
             rootName = setRoot(m.group(1).toUpperCase());
