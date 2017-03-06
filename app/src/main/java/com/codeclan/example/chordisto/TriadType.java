@@ -8,4 +8,7 @@ public enum TriadType implements Chordable {
     MAJOR,
     MINOR,
     DOMINANT,
+    DIMINISHED,
+    HALFDIMINISHED,
+    AUGMENTED
 }

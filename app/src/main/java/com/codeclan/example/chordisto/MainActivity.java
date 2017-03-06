@@ -108,7 +108,9 @@ public class MainActivity extends AppCompatActivity implements MidiDriver.OnMidi
 
         if (view.getId() == R.id.buttonPlayChord) {
                 Log.d(this.getClass().getName(), "MotionEvent.ACTION_DOWN");
+
                 Integer tempo = 60000 / (Integer.parseInt(tempoInput.getText().toString()));
+
                 String[] playTheseChords = Parser.splitString(chordsInput.getText().toString());
                 for (String currentChord : playTheseChords){
                     playChord(currentChord);
@@ -117,6 +119,25 @@ public class MainActivity extends AppCompatActivity implements MidiDriver.OnMidi
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
+                    playChord(currentChord);
+                    try {
+                        Thread.sleep(tempo);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    playChord(currentChord);
+                    try {
+                        Thread.sleep(tempo);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    playChord(currentChord);
+                    try {
+                        Thread.sleep(tempo);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
                 }
             }
 

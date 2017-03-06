@@ -44,6 +44,9 @@ public class ChordBuilder {
         int[] major = {0, 3, 8};
         int[] minor = {-1, 3, 8};
         int[] dominant = {0, 3, 6};
+        int[] diminished = {-1, 2, 5};
+        int[] halfDiminished = {-1, 2, 6};
+        int[] augmented = {0, 4, 8};
 
         switch(triadType){
             case MAJOR:
@@ -52,9 +55,17 @@ public class ChordBuilder {
                 return minor;
             case DOMINANT:
                 return dominant;
+            case DIMINISHED:
+                return diminished;
+            case HALFDIMINISHED:
+                return halfDiminished;
+            case AUGMENTED:
+                return augmented;
         }
 
         return null;
     }
 
 }
+
+// Aumtumn Leaves Chords: Am, D7, G, C, F#ø, B7, Em, Em

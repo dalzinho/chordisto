@@ -13,10 +13,6 @@ public class Parser {
 
     //instance variables
     private static TriadType triad;
-    //constructicon
-    public Parser() {
-
-    }
 
     //getters
 
@@ -64,6 +60,12 @@ public class Parser {
             triad = MINOR;
         } else if (triadInfo.equals("7")) {
             triad = DOMINANT;
+        } else if (triadInfo.equals("o")){
+            triad = DIMINISHED;
+        } else if (triadInfo.equals("ø")){
+            triad = HALFDIMINISHED;
+        } else if (triadInfo.equals("+")){
+            triad = AUGMENTED;
         }
         return triad;
     }
@@ -73,7 +75,7 @@ public class Parser {
         TriadType triadType = null;
         RootName rootName = null;
         String theRest = null;
-        Pattern pattern = Pattern.compile("([A-Ga-g][b#]?)([m7])?(.*)");
+        Pattern pattern = Pattern.compile("([A-Ga-g][b#]?)([m7oø+])?");
         Matcher m = pattern.matcher(chord);
         if (m.matches()) {
             rootName = setRoot(m.group(1).toUpperCase());
