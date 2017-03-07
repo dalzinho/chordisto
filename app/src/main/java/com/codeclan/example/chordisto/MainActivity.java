@@ -2,21 +2,25 @@ package com.codeclan.example.chordisto;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.internal.BottomNavigationMenu;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
-import android.text.style.TtsSpan;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
 
 import org.billthefarmer.mididriver.MidiDriver;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener  {
 
-    private BottomNavigationView
     private MidiDriver midiDriver;
     private Button buttonPlayNote;
     private TextView songTitle;
@@ -24,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText tempoInput;
     private EditText loopsInput;
     private Pitch pitch;
+    private BottomNavigationView bottomNavigationMenu;
 
     private DatabaseHandler dbHandler;
 
@@ -32,18 +37,20 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        buttonPlayNote = (Button) findViewById(R.id.buttonPlayChord);
+        buttonPlayNote = (Button)findViewById(R.id.buttonPlayChord);
 
-        chordsInput = (EditText) findViewById(R.id.chord_input_area);
-        tempoInput = (EditText) findViewById(R.id.tempo_input);
-        loopsInput = (EditText) findViewById(R.id.loops_input);
+        chordsInput = (EditText)findViewById(R.id.chord_input_area);
+        tempoInput = (EditText)findViewById(R.id.tempo_input);
+        loopsInput = (EditText)findViewById(R.id.loops_input);
         songTitle = (TextView)findViewById(R.id.song_title);
+        bottomNavigationMenu = (BottomNavigationView) findViewById(R.id.bottom_nav);
 
         midiDriver = new MidiDriver();
         pitch = new Pitch();
         dbHandler = new DatabaseHandler(this);
 
         chordsInput.setText(SaveLastSequenceToPreferences.getStoredSequence(this));
+        bottomNavigationMenu.setOnNavigationItemSelectedListener(this);
     }
 
     @Override
@@ -127,6 +134,26 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra("chords", chords);
         intent.putExtra("tempo", tempo);
         startActivity(intent);
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+        String toastText = null;
+
+        switch (item.getItemId()) {
+            case R.id.music_screen_button:
+                toastText = "You clicked music";
+                break;
+            case R.id.songbook_button:
+                Intent intent = new Intent(this, SongbookActivity.class);
+                startActivity(intent);
+                break;
+
+        }
+
+        Toast.makeText(this, toastText, Toast.LENGTH_SHORT).show();
+        return true;
     }
 
 }
