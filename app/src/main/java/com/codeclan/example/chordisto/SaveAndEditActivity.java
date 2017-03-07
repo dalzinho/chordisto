@@ -38,6 +38,8 @@ public class SaveAndEditActivity extends AppCompatActivity {
     }
 
     public void saveOrEdit(View button){
-        
+
+        Song song = new Song (songTitle.getText().toString(), chords.getText().toString(), Integer.parseInt(tempo.getText().toString()));
+        db.addSong(song);
     }
 }

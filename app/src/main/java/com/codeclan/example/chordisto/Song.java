@@ -16,19 +16,17 @@ public class Song {
         //hooray for method overloading.
     }
 
-    public Song(int id, String songTitle, String chords,  int tempo, int loops){
+    public Song(int id, String songTitle, String chords,  int tempo){
         this.id = id;
         this.songTitle = songTitle;
         this.chords = chords;
         this.tempo = tempo;
-        this.loops = loops;
     }
 
-    public Song(String songTitle, String chords,  int tempo, int loops){
+    public Song(String songTitle, String chords,  int tempo){
         this.songTitle = songTitle;
         this.chords = chords;
         this.tempo = tempo;
-        this.loops = loops;
     }
 
     //getters
@@ -48,9 +46,6 @@ public class Song {
         return tempo;
     }
 
-    public int getLoops() {
-        return loops;
-    }
 
     //setters
 
@@ -64,10 +59,6 @@ public class Song {
 
     public void setTempo(int tempo) {
         this.tempo = tempo;
-    }
-
-    public void setLoops(int loops) {
-        this.loops = loops;
     }
 
     public void setId(int id) {
