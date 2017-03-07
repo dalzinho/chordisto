@@ -6,14 +6,14 @@
         android:id="@+id/music_screen_button"
         android:enabled="true"
         android:icon="@drawable/ic_music_note_white_24dp"
-        android:title="Friends"
+        android:title="Play"
         app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/songbook_button"
         android:enabled="true"
         android:icon="@drawable/ic_library_books_white_24dp"
-        android:title="Friends"
+        android:title="Songbook"
         app:showAsAction="ifRoom" />
 
 </menu>

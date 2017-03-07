@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="untitled song"
+        android:layout_alignParentTop="true"
 
         />
 
@@ -21,14 +22,18 @@
         android:layout_height="wrap_content"
         android:hint="@string/chord_input_hint"
         tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="0dp" />
+        tools:layout_editor_absoluteY="0dp"
+        android:layout_below="@+id/song_title"
+        />
 
     <EditText
         android:id="@+id/tempo_input"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="@string/tempo_hint"
-        android:inputType="number" />
+        android:inputType="number"
+        android:layout_below="@+id/chord_input_area"
+        />
 
     <EditText
         android:id="@+id/loops_input"
@@ -36,6 +41,7 @@
         android:layout_height="wrap_content"
         android:hint="@string/number_of_loops_hint"
         android:inputType="number"
+        android:layout_below="@id/tempo_input"
         />
 
     <Button
@@ -44,15 +50,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/playButtonText"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="0dp" />
+        android:layout_below="@id/loops_input"
+         />
 
     <Button
         android:id="@+id/save_to_songbook_button"
         android:onClick="saveToSongBook"
         android:text="Save to Songbook"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/buttonPlayChord"
+
+        />
 
 
     <android.support.design.widget.BottomNavigationView
@@ -60,6 +69,7 @@
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         app:menu="@menu/bottom_navigation"
+        android:layout_alignParentBottom="true"
         />
 
-</LinearLayout>
+</RelativeLayout>
