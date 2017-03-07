@@ -20,10 +20,10 @@ import java.util.List;
 
 public class SongbookActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, AdapterView.OnItemClickListener {
 
-    ListView listView;
-    String[] songTitles;
-    BottomNavigationView bottomNavigationView;
-    ArrayList<String> songs;
+    private ListView listView;
+    private BottomNavigationView bottomNavigationView;
+    private ArrayList<String> songs;
+    private ArrayList<Song> songList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +33,7 @@ public class SongbookActivity extends AppCompatActivity implements BottomNavigat
 
         DatabaseHandler db = new DatabaseHandler(this);
 
-        ArrayList<Song> songList = db.getAllSongs();
+        songList = db.getAllSongs();
         songs = new ArrayList<>();
 
         for (Song song : songList) {
@@ -75,7 +75,11 @@ public class SongbookActivity extends AppCompatActivity implements BottomNavigat
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+        String songId = Integer.toString(listView.getPositionForView(view) + 1);
 
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra("id", songId);
+        startActivity(intent);
 
 //        String name = songs.get(position);
 //        String toastText = "The name " + name + " was clicked.";

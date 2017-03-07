@@ -3,7 +3,6 @@ package com.codeclan.example.chordisto;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.internal.BottomNavigationMenu;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -22,7 +21,6 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener  {
 
     private MidiDriver midiDriver;
-    private Button buttonPlayNote;
     private TextView songTitle;
     private EditText chordsInput;
     private EditText tempoInput;
@@ -35,18 +33,24 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        Intent intent = getIntent();
-
+        dbHandler = new DatabaseHandler(this);
         setContentView(R.layout.activity_main);
-
-        buttonPlayNote = (Button)findViewById(R.id.buttonPlayChord);
 
         chordsInput = (EditText)findViewById(R.id.chord_input_area);
         tempoInput = (EditText)findViewById(R.id.tempo_input);
         loopsInput = (EditText)findViewById(R.id.loops_input);
         songTitle = (TextView)findViewById(R.id.song_title);
         bottomNavigationMenu = (BottomNavigationView) findViewById(R.id.bottom_nav);
+
+        Intent intent = getIntent();
+        Bundle extras = intent.getExtras();
+//        if (extras.containsKey("id")){
+//            int songId = extras.getInt("id");
+//            Song song = dbHandler.getSong(songId);
+//            songTitle.setText(song.getSongTitle());
+//            chordsInput.setText(song.getChords());
+//            tempoInput.setText(String.valueOf(song.getTempo()));
+//        }
 
         midiDriver = new MidiDriver();
         pitch = new Pitch();
