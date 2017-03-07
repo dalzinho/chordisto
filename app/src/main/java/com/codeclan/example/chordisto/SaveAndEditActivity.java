@@ -41,5 +41,6 @@ public class SaveAndEditActivity extends AppCompatActivity {
 
         Song song = new Song (songTitle.getText().toString(), chords.getText().toString(), Integer.parseInt(tempo.getText().toString()));
         db.addSong(song);
+        Intent intent;
     }
 }

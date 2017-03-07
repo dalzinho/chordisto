@@ -35,6 +35,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Intent intent = getIntent();
+
         setContentView(R.layout.activity_main);
 
         buttonPlayNote = (Button)findViewById(R.id.buttonPlayChord);

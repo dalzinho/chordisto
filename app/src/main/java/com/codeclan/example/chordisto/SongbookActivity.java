@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -17,33 +18,38 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SongbookActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
+public class SongbookActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, AdapterView.OnItemClickListener {
 
     ListView listView;
     String[] songTitles;
     BottomNavigationView bottomNavigationView;
+    ArrayList<String> songs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_songbook);
-
-        listView = (ListView) findViewById(R.id.songbook_list_view);
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_nav);
 
         DatabaseHandler db = new DatabaseHandler(this);
 
         ArrayList<Song> songList = db.getAllSongs();
-        ArrayList<String> songs = new ArrayList<String>();
+        songs = new ArrayList<>();
 
         for (Song song : songList) {
             songs.add(song.getSongTitle());
         }
 
+        listView = (ListView) findViewById(R.id.songbook_list_view);
+
         ArrayAdapter<String> titlesAdapter = new ArrayAdapter<String>(
                 this,
                 android.R.layout.simple_list_item_1,
                 songs);
+
+        listView.setAdapter(titlesAdapter);
+        listView.setOnItemClickListener(this);
+
 
     }
 
@@ -64,5 +70,15 @@ public class SongbookActivity extends AppCompatActivity implements BottomNavigat
 
         Toast.makeText(this, toastText, Toast.LENGTH_SHORT).show();
         return true;
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        
+
+
+//        String name = songs.get(position);
+//        String toastText = "The name " + name + " was clicked.";
+//        Toast.makeText(this, toastText, Toast.LENGTH_SHORT).show();
     }
 }
