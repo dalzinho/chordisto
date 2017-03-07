@@ -41,6 +41,10 @@ public class Song {
     public String getChords() {
         return chords;
     }
+    public String[] getChordsAsArray() {
+        String[] arrayOfChords = Parser.splitString(chords);
+        return arrayOfChords;
+    }
 
     public int getTempo() {
         return tempo;

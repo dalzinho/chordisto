@@ -50,8 +50,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         contentValues.put(KEY_SONG_TITLE, song.getSongTitle());
         contentValues.put(KEY_CHORDS, song.getChords());
         contentValues.put(KEY_TEMPO, song.getTempo());
-        contentValues.put(KEY_LOOPS, song.getLoops());
-
         db.insert(TABLE_SONGS, null, contentValues);
         db.close();
     };
@@ -68,8 +66,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 (Integer.parseInt(cursor.getString(0)),
                 cursor.getString(1),
                 cursor.getString(2),
-                Integer.parseInt(cursor.getString(3)),
-                Integer.parseInt(cursor.getString(4)));
+                Integer.parseInt(cursor.getString(3)));
         return song;
     };
 
@@ -100,7 +97,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         contentValues.put(KEY_SONG_TITLE, song.getSongTitle());
         contentValues.put(KEY_CHORDS, song.getChords());
         contentValues.put(KEY_TEMPO, song.getTempo());
-        contentValues.put(KEY_LOOPS, song.getLoops());
 
         return db.update(TABLE_SONGS, contentValues, KEY_ID + "=?", new String[] {String.valueOf(song.getId())});
     }

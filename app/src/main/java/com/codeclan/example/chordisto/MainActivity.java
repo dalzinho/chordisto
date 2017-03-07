@@ -73,18 +73,30 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private String[] getUsableVariables(){
+        String[] variables = {
+                songTitle.getText().toString(),
+                chordsInput.getText().toString(),
+                tempoInput.getText().toString()
+        };
+
+        return variables;
+    }
+
     public void playMusic(View button) {
 
 
         Integer tempo = 60000 / (Integer.parseInt(tempoInput.getText().toString()));
+        String[] variables = getUsableVariables();
 
-        String[] playTheseChords = Parser.splitString(chordsInput.getText().toString());
+        Song song = SongBuilder.run(variables[0], variables[1], Integer.parseInt(variables[2]));
+
         int loopCounter = 0;
         int loopLimit = Integer.parseInt(loopsInput.getText().toString());
 
         do {
 
-            for (String currentChord : playTheseChords) {
+            for (String currentChord : song.getChordsAsArray()) {
                 int beatCount = 0;
                 do {
                     playChord(currentChord);
