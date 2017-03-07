@@ -70,8 +70,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return song;
     };
 
-    public List<Song> getAllSongs(){
-        List<Song> songList = new ArrayList<Song>();
+    public ArrayList<Song> getAllSongs(){
+        ArrayList<Song> songList = new ArrayList<Song>();
         String selectQuery = "SELECT * FROM " + TABLE_SONGS;
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -83,8 +83,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 song.setId(Integer.parseInt(cursor.getString(0)));
                 song.setSongTitle(cursor.getString(1));
                 song.setChords(cursor.getString(2));
-                song.setTempo(Integer.parseInt(cursor.getString(3)));
-                song.setTempo(Integer.parseInt(cursor.getString(4)));
+                songList.add(song);
+
             } while (cursor.moveToNext());
         }
         return songList;
