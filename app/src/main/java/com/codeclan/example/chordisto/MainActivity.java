@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void saveToSongBook(){
+    public void saveToSongBook(View button){
         String chords = chordsInput.getText().toString();
         int tempo = Integer.parseInt(tempoInput.getText().toString());
 

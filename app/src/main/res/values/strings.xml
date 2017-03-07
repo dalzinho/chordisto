@@ -4,4 +4,6 @@
     <string name="chord_input_hint">Type in some chords, separate with commas</string>
     <string name="tempo_hint">Tempo</string>
     <string name="number_of_loops_hint">How many loops?</string>
+    <string name="song_name_input_hint">Enter song title</string>
+    <string name="save_or_edit_button">Update</string>
 </resources>

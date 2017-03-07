@@ -8,29 +8,32 @@
     tools:context="com.codeclan.example.chordisto.SaveAndEditActivity">
 
     <EditText
-        android:id="@+id/song_title"
+        android:id="@+id/song_title_save"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="untitled song" />
+        android:hint="@string/song_name_input_hint" />
 
     <EditText
-        android:id="@+id/chord_input_area"
+        android:id="@+id/chord_input_area_save"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/chord_input_hint" />
 
     <EditText
-        android:id="@+id/tempo_input"
+        android:id="@+id/tempo_input_save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="@string/tempo_hint"
         android:inputType="number" />
 
-    <EditText
-        android:id="@+id/loops_input"
-        android:layout_width="wrap_content"
+    <Button
+        android:id="@+id/save_or_edit_button"
+        android:onClick="saveOrEdit"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/number_of_loops_hint"
-        android:inputType="number" />
+        android:text="@string/save_or_edit_button"
+
+        />
+
 
 </LinearLayout>
