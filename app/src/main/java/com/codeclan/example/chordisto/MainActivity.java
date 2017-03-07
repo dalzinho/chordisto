@@ -16,6 +16,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
+    private BottomNavigationView
     private MidiDriver midiDriver;
     private Button buttonPlayNote;
     private TextView songTitle;
