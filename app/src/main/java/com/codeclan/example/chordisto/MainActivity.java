@@ -2,8 +2,8 @@ package com.codeclan.example.chordisto;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.style.TtsSpan;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,13 +15,12 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     private MidiDriver midiDriver;
-
-    private int[] config;
     private Button buttonPlayNote;
     private EditText chordsInput;
     private EditText tempoInput;
     private EditText loopsInput;
-    private ArrayList<Integer> chordTones;
+    private Pitch pitch;
+    private DatabaseHandler dbHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +35,9 @@ public class MainActivity extends AppCompatActivity {
 
 
         midiDriver = new MidiDriver();
+        pitch = new Pitch();
+        dbHandler = new DatabaseHandler(this);
+
         chordsInput.setText(SaveLastSequenceToPreferences.getStoredSequence(this));
     }
 
@@ -44,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         midiDriver.start();
 
-        config = midiDriver.config();
+        int[] config = midiDriver.config();
 
         Log.d(this.getClass().getName(), "maxVoices: " + config[0]);
         Log.d(this.getClass().getName(), "numChannels: " + config[1]);
@@ -59,41 +61,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void playChord(String inputChord) {
-
-        Pitch pitch = new Pitch();
-        ChordBuilder chordBuilder = new ChordBuilder();
-        Chord chord = chordBuilder.build(inputChord, pitch);
-        byte[] bassRoot;
-        byte[] third;
-        byte[] fifth;
-        byte[] topNote;
-
-        Integer velocity = 127;
-        bassRoot = new byte[3];
-        bassRoot[0] = (byte) (0x90 | 0x00);
-        bassRoot[1] = chord.root();  //this byteValue business takes the note int and converts it so i don't have to
-        bassRoot[2] = velocity.byteValue();
-
-        third = new byte[3];
-        third[0] = (byte) (0x90 | 0x00);
-        third[1] = chord.third();
-        third[2] = velocity.byteValue();
-
-        fifth = new byte[3];
-        fifth[0] = (byte) (0x90 | 0x00);
-        fifth[1] = chord.fifth();
-        fifth[2] = velocity.byteValue();
-
-        topNote = new byte[3];
-        topNote[0] = (byte) (0x90 | 0x00);
-        topNote[1] = chord.topNote();
-        topNote[2] = velocity.byteValue();
-
-        midiDriver.write(bassRoot);
-        midiDriver.write(third);
-        midiDriver.write(fifth);
-        midiDriver.write(topNote);
-
+        Chord chord = ChordBuilder.build(inputChord, pitch);
+        midiDriver.write(chord.getRoot());
+        midiDriver.write(chord.getThird());
+        midiDriver.write(chord.getFifth());
+        midiDriver.write(chord.getTopNote());
 
     }
 
@@ -132,8 +104,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void saveToSongBook(){
 
-        DatabaseHandler dbHandler = new DatabaseHandler(this);
-        
     }
 
 }

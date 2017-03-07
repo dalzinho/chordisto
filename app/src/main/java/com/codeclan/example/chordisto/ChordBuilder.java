@@ -11,7 +11,7 @@ import static com.codeclan.example.chordisto.TriadType.*;
 public class ChordBuilder {
 
 
-    public Chord build(String chord, Pitch pitch){
+    private static ArrayList<Byte> getPitchesAsBytes(String chord, Pitch pitch){
 
         //instantiate byte array of chord tones
         ArrayList<Byte> chordTones = new ArrayList<>();
@@ -35,11 +35,10 @@ public class ChordBuilder {
         chordTones.add(fifth.byteValue());
         chordTones.add(topNote.byteValue());
 
-        Chord returnChord = new Chord(chordTones.get(0), chordTones.get(1), chordTones.get(2), chordTones.get(3));
-        return returnChord;
+        return chordTones;
     }
 
-    private int[] setChordToneOffset(TriadType triadType){
+    private static int[] setChordToneOffset(TriadType triadType){
 
         int[] major = {0, 3, 8};
         int[] minor = {-1, 3, 8};
@@ -66,6 +65,10 @@ public class ChordBuilder {
         return null;
     }
 
+    public static Chord build(String inputChord, Pitch pitch){
+        ArrayList chordTones = getPitchesAsBytes(inputChord, pitch);
+        return new Chord(chordTones);
+    }
 }
 
 // Aumtumn Leaves Chords: Am, D7, G, C, F#ø, B7, Em, Em

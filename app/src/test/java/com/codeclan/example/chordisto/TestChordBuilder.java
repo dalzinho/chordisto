@@ -5,7 +5,6 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
-import static com.codeclan.example.chordisto.RootName.*;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
@@ -27,25 +26,25 @@ public class TestChordBuilder {
 
     @Test
     public void testAskingForChordReturnsFourNumbers(){
-        ArrayList<Byte> chordTones = chordBuilder.build("C", pitch);
+        ArrayList<Byte> chordTones = chordBuilder.getPitchesAsBytes("C", pitch);
         assertEquals(4, chordTones.size());
     }
 
     @Test
     public void testAskingForMajorChordReturnsTheCorrectNumbers(){
-        ArrayList<Byte> chordTones = chordBuilder.build("D", pitch);
+        ArrayList<Byte> chordTones = chordBuilder.getPitchesAsBytes("D", pitch);
         assertTrue(chordTones.contains((byte) 0x32));
     }
 
     @Test
     public void testPullsCorrectTonesForMinorChords(){
-        ArrayList<Byte> chordTones = chordBuilder.build("Em", pitch);
+        ArrayList<Byte> chordTones = chordBuilder.getPitchesAsBytes("Em", pitch);
         assertTrue(chordTones.contains((byte) 0x34));
     }
 
     @Test
     public void testReturnsDominantMidiNotes(){
-        ArrayList<Byte> chordTones = chordBuilder.build("G7", pitch);
+        ArrayList<Byte> chordTones = chordBuilder.getPitchesAsBytes("G7", pitch);
         assertTrue(chordTones.contains((byte) 0x37));
 
     }

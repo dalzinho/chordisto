@@ -24,6 +24,13 @@ public class Song {
         this.loops = loops;
     }
 
+    public Song(String songTitle, String chords,  int tempo, int loops){
+        this.songTitle = songTitle;
+        this.chords = chords;
+        this.tempo = tempo;
+        this.loops = loops;
+    }
+
     //getters
     public int getId() {
         return id;
