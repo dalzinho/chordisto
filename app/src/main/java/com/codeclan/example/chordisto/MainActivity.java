@@ -1,5 +1,6 @@
 package com.codeclan.example.chordisto;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.style.TtsSpan;
@@ -7,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import org.billthefarmer.mididriver.MidiDriver;
 
@@ -16,10 +18,12 @@ public class MainActivity extends AppCompatActivity {
 
     private MidiDriver midiDriver;
     private Button buttonPlayNote;
+    private TextView songTitle;
     private EditText chordsInput;
     private EditText tempoInput;
     private EditText loopsInput;
     private Pitch pitch;
+
     private DatabaseHandler dbHandler;
 
     @Override
@@ -32,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         chordsInput = (EditText) findViewById(R.id.chord_input_area);
         tempoInput = (EditText) findViewById(R.id.tempo_input);
         loopsInput = (EditText) findViewById(R.id.loops_input);
-
+        songTitle = (TextView)findViewById(R.id.song_title);
 
         midiDriver = new MidiDriver();
         pitch = new Pitch();
@@ -103,7 +107,13 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void saveToSongBook(){
+        String chords = chordsInput.getText().toString();
+        int tempo = Integer.parseInt(tempoInput.getText().toString());
 
+        Intent intent = new Intent(this, SaveAndEditActivity.class);
+        intent.putExtra("chords", chords);
+        intent.putExtra("tempo", tempo);
+        startActivity(intent);
     }
 
 }

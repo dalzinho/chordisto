@@ -15,7 +15,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SongbookActivity"></activity>
+        <activity android:name=".SongbookActivity"
+            android:parentActivityName=".MainActivity"/>
+        <activity android:name=".SaveAndEditActivity"
+            android:parentActivityName=".MainActivity">
+        </activity>
     </application>
 
 </manifest>

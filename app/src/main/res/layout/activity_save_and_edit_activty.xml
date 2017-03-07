@@ -5,23 +5,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.codeclan.example.chordisto.MainActivity">
+    tools:context="com.codeclan.example.chordisto.SaveAndEditActivity">
 
-    <TextView
+    <EditText
         android:id="@+id/song_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="untitled song"
-
-        />
+        android:text="untitled song" />
 
     <EditText
         android:id="@+id/chord_input_area"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/chord_input_hint"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="0dp" />
+        android:hint="@string/chord_input_hint" />
 
     <EditText
         android:id="@+id/tempo_input"
@@ -35,23 +31,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="@string/number_of_loops_hint"
-        android:inputType="number"
-        />
-
-    <Button
-        android:id="@+id/buttonPlayChord"
-        android:onClick="playMusic"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/playButtonText"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="0dp" />
-
-    <Button
-        android:id="@+id/save_to_songbook_button"
-        android:onClick="saveToSongBook"
-        android:text="Save to Songbook"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:inputType="number" />
 
 </LinearLayout>
