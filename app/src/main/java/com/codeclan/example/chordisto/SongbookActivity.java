@@ -74,7 +74,7 @@ public class SongbookActivity extends AppCompatActivity implements BottomNavigat
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        
+
 
 
 //        String name = songs.get(position);

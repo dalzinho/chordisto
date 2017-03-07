@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class SaveAndEditActivity extends AppCompatActivity {
 
@@ -41,6 +42,7 @@ public class SaveAndEditActivity extends AppCompatActivity {
 
         Song song = new Song (songTitle.getText().toString(), chords.getText().toString(), Integer.parseInt(tempo.getText().toString()));
         db.addSong(song);
-        Intent intent;
+        String toastText = "Saved!";
+        Toast.makeText(this, toastText, Toast.LENGTH_LONG).show();
     }
 }
