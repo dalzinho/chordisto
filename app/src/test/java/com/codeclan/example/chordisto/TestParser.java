@@ -89,6 +89,23 @@ public class TestParser {
         assertEquals(DSHARP, chordInfo[0]);
         assertEquals(DOMINANT, chordInfo[1]);
     }
+    @Test
+    public void testMatcherRecognisesFlats(){
+        assertEquals(true, Parser.isFlat("Db"));
+        assertEquals(false, Parser.isFlat("C#"));
+    }
+
+    @Test
+    public void testSetFlatsToSharp(){
+        assertEquals("C#", Parser.setFlatsToSharp("Db"));
+    }
+
+    @Test
+    public void testReadsFlatsAndCreatesSharpEnums(){
+        String chord = "Db";
+        Chordable[] chordInfo = Parser.setVariables(chord);
+        assertEquals(CSHARP, chordInfo[0]);
+    }
 
 
 //      I am presently several Regex skill levels away from being able to do this at the moment.

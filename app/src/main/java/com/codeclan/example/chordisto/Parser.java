@@ -60,16 +60,40 @@ public class Parser {
             triad = MINOR;
         } else if (triadInfo.equals("7")) {
             triad = DOMINANT;
-        } else if (triadInfo.equals("o")){
+        } else if (triadInfo.equals("o")) {
             triad = DIMINISHED;
-        } else if (triadInfo.equals("ø")){
+        } else if (triadInfo.equals("ø")) {
             triad = HALFDIMINISHED;
-        } else if (triadInfo.equals("+")){
+        } else if (triadInfo.equals("+")) {
             triad = AUGMENTED;
         }
         return triad;
     }
 
+    public static boolean isFlat(String rootInfo) {
+        Pattern pattern = Pattern.compile("([A-Ga-g])(b)");
+        Matcher matcher = pattern.matcher(rootInfo);
+        String flatToSharp = null;
+        return matcher.matches();
+    }
+
+    public static String setFlatsToSharp(String rootInfo) {
+
+        switch (rootInfo) {
+            case ("Db"):
+                return "C#";
+            case ("Eb"):
+                return "D#";
+            case("Gb"):
+                return "F#";
+            case("Ab"):
+                return "G#";
+            case("Bb"):
+                return "A#";
+        }
+
+        return null;
+    }
 
     public static Chordable[] setVariables(String chord) {
         TriadType triadType = null;
@@ -77,8 +101,14 @@ public class Parser {
         String theRest = null;
         Pattern pattern = Pattern.compile("([A-Ga-g][b#]?)([m7oø+])?(.*)");
         Matcher m = pattern.matcher(chord);
+
         if (m.matches()) {
-            rootName = setRoot(m.group(1).toUpperCase());
+            if (isFlat(m.group(1))){
+                rootName = setRoot(setFlatsToSharp(m.group(1)));
+            } else {
+                rootName = setRoot(m.group(1).toUpperCase());
+            }
+
             triadType = setTriad(m.group(2));
             theRest = m.group(3);
         }

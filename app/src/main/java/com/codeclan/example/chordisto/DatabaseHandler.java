@@ -17,7 +17,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     // this was coded by hand, but based on the tutorial I read here: http://www.androidhive.info/2011/11/android-sqlite-database-tutorial/
 
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
     private static final String DATABASE_NAME = "songBook";
     private static final String TABLE_SONGS = "songs";
 
@@ -25,7 +25,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String KEY_SONG_TITLE = "songTitle";
     private static final String KEY_CHORDS = "chords";
     private static final String KEY_TEMPO = "tempo";
-    private static final String KEY_LOOPS = "loops";
 
     public DatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -33,7 +32,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        String CREATE_SONGS_TABLE = "CREATE TABLE " + TABLE_SONGS + "(" + KEY_ID + " INTEGER PRIMARY KEY, " + KEY_SONG_TITLE + " TEXT, " + KEY_CHORDS + " TEXT, " + KEY_TEMPO + " INTEGER, " + KEY_LOOPS + "INTEGER);";
+        String CREATE_SONGS_TABLE = "CREATE TABLE " + TABLE_SONGS + "(" + KEY_ID + " INTEGER PRIMARY KEY, " + KEY_SONG_TITLE + " TEXT, " + KEY_CHORDS + " TEXT, " + KEY_TEMPO + " INTEGER);";
         sqLiteDatabase.execSQL(CREATE_SONGS_TABLE);
     }
 
@@ -56,9 +55,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     public Song getSong(int id){
         SQLiteDatabase db = this.getReadableDatabase();
+        String[] idArray = new String[] {String.valueOf(id)};
+        Cursor cursor = db.rawQuery("SELECT * FROM SONGS WHERE " + KEY_ID + " =?;", idArray);
 
-        Cursor cursor = db.query(TABLE_SONGS, new String[] {KEY_ID, KEY_SONG_TITLE, KEY_CHORDS, KEY_TEMPO, KEY_LOOPS}, KEY_ID + "=?",
-                new String[] {String.valueOf(id)}, null, null, null, null);
+
         if (cursor != null)
             cursor.moveToFirst();
 
@@ -87,6 +87,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
             } while (cursor.moveToNext());
         }
+        cursor.close();
         return songList;
     };
 

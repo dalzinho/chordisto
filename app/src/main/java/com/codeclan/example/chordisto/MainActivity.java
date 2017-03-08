@@ -3,6 +3,7 @@ package com.codeclan.example.chordisto;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.StringDef;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -13,6 +14,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
+//import com.facebook.stetho.Stetho;
 
 import org.billthefarmer.mididriver.MidiDriver;
 
@@ -36,6 +39,11 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         dbHandler = new DatabaseHandler(this);
         setContentView(R.layout.activity_main);
 
+//        Stetho.newInitializerBuilder(this)
+//                .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
+//                .enableWebKitInspector(Stetho.defaultInspectorModulesProvider(this))
+//                .build();
+
         chordsInput = (EditText)findViewById(R.id.chord_input_area);
         tempoInput = (EditText)findViewById(R.id.tempo_input);
         loopsInput = (EditText)findViewById(R.id.loops_input);
@@ -44,13 +52,13 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
-//        if (extras.containsKey("id")){
-//            int songId = extras.getInt("id");
-//            Song song = dbHandler.getSong(songId);
-//            songTitle.setText(song.getSongTitle());
-//            chordsInput.setText(song.getChords());
-//            tempoInput.setText(String.valueOf(song.getTempo()));
-//        }
+        if (extras != null && extras.containsKey("id")){
+            int songId = extras.getInt("id");
+            Song song = dbHandler.getSong(songId);
+            songTitle.setText(song.getSongTitle());
+            chordsInput.setText(song.getChords());
+            tempoInput.setText(String.valueOf(song.getTempo()));
+        }
 
         midiDriver = new MidiDriver();
         pitch = new Pitch();
@@ -99,6 +107,16 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     }
 
     public void playMusic(View button) {
+        if(chordsInput.getText().toString().isEmpty()){
+            chordsInput.setText("C");
+        }
+        if(tempoInput.getText().toString().isEmpty()){
+            tempoInput.setText(String.valueOf(100));
+        }
+        if(loopsInput.getText().toString().isEmpty()){
+            loopsInput.setText((String.valueOf(1)));
+        }
+
 
 
         Integer tempo = 60000 / (Integer.parseInt(tempoInput.getText().toString()));

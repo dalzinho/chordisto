@@ -37,7 +37,7 @@ public class SongbookActivity extends AppCompatActivity implements BottomNavigat
         songs = new ArrayList<>();
 
         for (Song song : songList) {
-            songs.add(song.getSongTitle());
+            songs.add(song.getSongTitle() + " " + String.valueOf(song.getId()));
         }
 
         listView = (ListView) findViewById(R.id.songbook_list_view);
@@ -75,7 +75,7 @@ public class SongbookActivity extends AppCompatActivity implements BottomNavigat
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-        String songId = Integer.toString(listView.getPositionForView(view) + 1);
+        int songId = listView.getPositionForView(view) + 1;
 
         Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra("id", songId);
