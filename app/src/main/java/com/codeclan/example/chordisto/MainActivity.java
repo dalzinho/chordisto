@@ -65,6 +65,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         dbHandler = new DatabaseHandler(this);
 
         chordsInput.setText(SaveLastSequenceToPreferences.getStoredSequence(this));
+        tempoInput.setText(String.valueOf(SaveLastSequenceToPreferences.getStoredTempo(this)));
         bottomNavigationMenu.setOnNavigationItemSelectedListener(this);
     }
 
@@ -147,7 +148,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         } while (loopCounter < loopLimit);
 
-        SaveLastSequenceToPreferences.setStoredSequence(this,chordsInput.getText().toString());
+        SaveLastSequenceToPreferences.setStoredSequence(this,chordsInput.getText().toString(), Integer.parseInt(tempoInput.getText().toString()));
     }
 
 
