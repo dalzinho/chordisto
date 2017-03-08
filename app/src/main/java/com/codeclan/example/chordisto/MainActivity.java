@@ -169,7 +169,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         switch (item.getItemId()) {
             case R.id.music_screen_button:
-                toastText = "You clicked music";
                 break;
             case R.id.songbook_button:
                 Intent intent = new Intent(this, SongbookActivity.class);
@@ -177,9 +176,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 break;
 
         }
-
-        Toast.makeText(this, toastText, Toast.LENGTH_SHORT).show();
-        return true;
+        return false;
     }
 
 }

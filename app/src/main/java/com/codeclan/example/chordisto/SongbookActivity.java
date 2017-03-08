@@ -18,7 +18,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SongbookActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, AdapterView.OnItemClickListener {
+public class SongbookActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     private ListView listView;
     private BottomNavigationView bottomNavigationView;
@@ -53,24 +53,24 @@ public class SongbookActivity extends AppCompatActivity implements BottomNavigat
 
     }
 
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
-        String toastText = null;
-
-        switch (item.getItemId()) {
-            case R.id.music_screen_button:
-                Intent intent = new Intent(this, MainActivity.class);
-                startActivity(intent);
-            case R.id.songbook_button:
-                toastText = "You RAAAAANNGGG?!";
-                break;
-
-        }
-
-        Toast.makeText(this, toastText, Toast.LENGTH_SHORT).show();
-        return true;
-    }
+//    @Override
+//    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+//
+//        String toastText = null;
+//
+//        switch (item.getItemId()) {
+//            case R.id.music_screen_button:
+//                Intent intent = new Intent(this, MainActivity.class);
+//                startActivity(intent);
+//            case R.id.songbook_button:
+//                toastText = "You RAAAAANNGGG?!";
+//                break;
+//
+//        }
+//
+//        Toast.makeText(this, toastText, Toast.LENGTH_SHORT).show();
+//        return true;
+//    }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -81,8 +81,6 @@ public class SongbookActivity extends AppCompatActivity implements BottomNavigat
         intent.putExtra("id", songId);
         startActivity(intent);
 
-//        String name = songs.get(position);
-//        String toastText = "The name " + name + " was clicked.";
-//        Toast.makeText(this, toastText, Toast.LENGTH_SHORT).show();
+
     }
 }
