@@ -10,7 +10,6 @@ public class Song {
     String songTitle;
     String chords;
     int tempo;
-    int loops;
 
     public Song(){
         //hooray for method overloading.
