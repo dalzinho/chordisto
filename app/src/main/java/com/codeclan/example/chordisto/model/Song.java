@@ -1,4 +1,6 @@
-package com.codeclan.example.chordisto;
+package com.codeclan.example.chordisto.model;
+
+import com.codeclan.example.chordisto.util.Parser;
 
 /**
  * Created by user on 06/03/2017.
@@ -10,6 +12,7 @@ public class Song {
     String songTitle;
     String chords;
     int tempo;
+    Parser parser = new Parser();
 
     public Song(){
         //hooray for method overloading.
@@ -41,10 +44,9 @@ public class Song {
         return chords;
     }
     public String[] getChordsAsArray() {
-        String[] arrayOfChords = Parser.splitString(chords);
+        String[] arrayOfChords = parser.splitString(chords);
         return arrayOfChords;
     }
-
     public int getTempo() {
         return tempo;
     }

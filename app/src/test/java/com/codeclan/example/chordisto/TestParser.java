@@ -1,10 +1,13 @@
 package com.codeclan.example.chordisto;
 
+import com.codeclan.example.chordisto.model.ChordModel;
+import com.codeclan.example.chordisto.util.Parser;
+
 import org.junit.Before;
 import org.junit.Test;
 
-import static com.codeclan.example.chordisto.RootName.*;
-import static com.codeclan.example.chordisto.TriadType.*;
+import static com.codeclan.example.chordisto.chordenums.RootName.*;
+import static com.codeclan.example.chordisto.chordenums.TriadType.*;
 import static junit.framework.Assert.assertEquals;
 
 /**
@@ -21,78 +24,55 @@ public class TestParser {
     }
 
     @Test
-    public void testCanSeparateInputIntoArray() {
-        String chords = "C, G, F, G";
-//        String[] chordArray = parser.splitString(chords);
-        assertEquals(4, parser.splitString(chords).length);
-    }
-
-    @Test
     public void testRegexGetsSimpleRoot() {
-        String chord = "C";
-        Chordable[] chordInfo = Parser.setVariables(chord);
-        assertEquals(C, (RootName) chordInfo[0]);
+        String chordName = "C";
+        ChordModel chord = parser.setVariables(chordName);
+        assertEquals(C, chord.getRoot());
     }
 
     @Test
     public void testRegexGetsRootWithAccidental() {
-        String chord = "A#";
-        Chordable[] chordInfo = Parser.setVariables(chord);
-        assertEquals(ASHARP, chordInfo[0]);
+        String chordName = "A#";
+        ChordModel chord = parser.setVariables(chordName);
+        assertEquals(ASHARP, chord.getRoot());
     }
-
-    @Test
-    public void testRootCanBeSharp() {
-        String chord = "F#";
-        Chordable[] chordInfo = Parser.setVariables(chord);
-        assertEquals(FSHARP, chordInfo[0]);
-    }
-
 
     @Test
     public void testGetRootFromLongerSymbol() {
-        String chord = "Gm";
-        Chordable[] chordInfo = Parser.setVariables(chord);
-
-        assertEquals(G, chordInfo[0]);
+        String chordName = "Gm";
+        ChordModel chord = parser.setVariables(chordName);
+        assertEquals(G, chord.getRoot());
     }
 
     @Test
     public void testSetTriadMAJOREdition() {
-        String chord = "G";
-        Chordable[] chordInfo = Parser.setVariables(chord);
-
-        assertEquals(MAJOR, chordInfo[1]);
+        String chordName = "G";
+        ChordModel chord = parser.setVariables(chordName);
+        assertEquals(MAJOR, chord.getType());
     }
 
     @Test
     public void testSetTriadMinorEdition() {
-        String chord = "Gm";
-        Chordable[] chordInfo = Parser.setVariables(chord);
+        String chordName = "Gm";
+        ChordModel chord = parser.setVariables(chordName);
 
-        assertEquals(MINOR, chordInfo[1]);
+        assertEquals(MINOR, chord.getType());
     }
 
     @Test
     public void testSetDominantTriad() {
-        String chord = "F#7";
-        Chordable[] chordInfo = Parser.setVariables(chord);
-
-        assertEquals(DOMINANT, chordInfo[1]);
+        String chordName = "F#7";
+        ChordModel chord = parser.setVariables(chordName);
+        assertEquals(DOMINANT, chord.getType());
     }
 
     @Test
     public void testDoesNotSpitDummyWhenMoreInfoGivenThanExpected(){
-        String chord = "D#7#9b11";
-        Chordable[] chordInfo = Parser.setVariables(chord);
+        String chordName = "D#7#9b11";
+        ChordModel chord = parser.setVariables(chordName);
 
-        assertEquals(DSHARP, chordInfo[0]);
-        assertEquals(DOMINANT, chordInfo[1]);
-    }
-    @Test
-    public void testMatcherRecognisesFlats(){
-        assertEquals(true, Parser.isFlat("Db"));
-        assertEquals(false, Parser.isFlat("C#"));
+        assertEquals(DSHARP, chord.getRoot());
+        assertEquals(DOMINANT, chord.getType());
     }
 
     @Test
@@ -102,11 +82,10 @@ public class TestParser {
 
     @Test
     public void testReadsFlatsAndCreatesSharpEnums(){
-        String chord = "Db";
-        Chordable[] chordInfo = Parser.setVariables(chord);
-        assertEquals(CSHARP, chordInfo[0]);
+        String chordName = "Db";
+        ChordModel chord = parser.setVariables(chordName);
+        assertEquals(CSHARP, chord.getRoot());
     }
-
 
 //      I am presently several Regex skill levels away from being able to do this at the moment.
 

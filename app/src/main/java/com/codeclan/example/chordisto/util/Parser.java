@@ -1,9 +1,13 @@
-package com.codeclan.example.chordisto;
+package com.codeclan.example.chordisto.util;
+
+import com.codeclan.example.chordisto.chordenums.RootName;
+import com.codeclan.example.chordisto.chordenums.TriadType;
+import com.codeclan.example.chordisto.model.ChordModel;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.codeclan.example.chordisto.TriadType.*;
+import static com.codeclan.example.chordisto.chordenums.TriadType.*;
 
 /**
  * Created by user on 03/03/2017.
@@ -11,13 +15,9 @@ import static com.codeclan.example.chordisto.TriadType.*;
 
 public class Parser {
 
-    //instance variables
     private static TriadType triad;
 
-    //getters
-
-    //los métodos
-    public static String[] splitString(String string) {
+    public String[] splitString(String string) {
         return string.split("[, ]+");
     }
 
@@ -70,10 +70,9 @@ public class Parser {
         return triad;
     }
 
-    public static boolean isFlat(String rootInfo) {
+    private boolean isFlat(String rootInfo) {
         Pattern pattern = Pattern.compile("([A-Ga-g])(b)");
         Matcher matcher = pattern.matcher(rootInfo);
-        String flatToSharp = null;
         return matcher.matches();
     }
 
@@ -95,12 +94,11 @@ public class Parser {
         return null;
     }
 
-    public static Chordable[] setVariables(String chord) {
+    public ChordModel setVariables(String chordName) {
         TriadType triadType = null;
         RootName rootName = null;
-        String theRest = null;
         Pattern pattern = Pattern.compile("([A-Ga-g][b#]?)([m7oø+])?(.*)");
-        Matcher m = pattern.matcher(chord);
+        Matcher m = pattern.matcher(chordName);
 
         if (m.matches()) {
             if (isFlat(m.group(1))){
@@ -110,10 +108,11 @@ public class Parser {
             }
 
             triadType = setTriad(m.group(2));
-            theRest = m.group(3);
         }
 
-        Chordable[] chordInfo = {rootName, triadType};
-        return chordInfo;
+        ChordModel chord = new ChordModel();
+        chord.setRoot(rootName);
+        chord.setType(triadType);
+        return chord;
     }
 }

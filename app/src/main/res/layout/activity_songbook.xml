@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.codeclan.example.chordisto.SongbookActivity">
+    tools:context="com.codeclan.example.chordisto.android.activity.SongbookActivity">
 
     <ListView
         android:id="@+id/songbook_list_view"

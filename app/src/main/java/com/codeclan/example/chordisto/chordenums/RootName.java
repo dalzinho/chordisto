@@ -1,10 +1,10 @@
-package com.codeclan.example.chordisto;
+package com.codeclan.example.chordisto.chordenums;
 
 /**
  * Created by user on 03/03/2017.
  */
 
-public enum RootName implements Chordable {
+public enum RootName {
     C,
     CSHARP,
     D,

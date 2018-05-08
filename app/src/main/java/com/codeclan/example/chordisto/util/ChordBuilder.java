@@ -1,8 +1,11 @@
-package com.codeclan.example.chordisto;
+package com.codeclan.example.chordisto.util;
+
+import com.codeclan.example.chordisto.model.Pitch;
+import com.codeclan.example.chordisto.chordenums.TriadType;
+import com.codeclan.example.chordisto.model.Chord;
+import com.codeclan.example.chordisto.model.ChordModel;
 
 import java.util.ArrayList;
-
-import static com.codeclan.example.chordisto.TriadType.*;
 
 /**
  * Created by user on 03/03/2017.
@@ -10,22 +13,23 @@ import static com.codeclan.example.chordisto.TriadType.*;
 
 public class ChordBuilder {
 
+    private Parser parser;
 
-    private static ArrayList<Byte> getPitchesAsBytes(String chord, Pitch pitch){
+    public ChordBuilder(Parser parser) {
+        this.parser = parser;
+    }
 
-        //instantiate byte array of chord tones
+    public ArrayList<Byte> getPitchesAsBytes(String chord, Pitch pitch){
         ArrayList<Byte> chordTones = new ArrayList<>();
 
         //get root and triad info from parser, unpack and cast into usuable types
-        Chordable[] chordInfo = Parser.setVariables(chord);
-        RootName rootName = (RootName) chordInfo[0];
-        TriadType triadType = (TriadType) chordInfo[1];
+        ChordModel chordModel = parser.setVariables(chord);
 
         //get offsets from offset method
-        int[] offset = setChordToneOffset(triadType);
+        int[] offset = setChordToneOffset(chordModel.getType());
 
-        Integer bassPitch = (pitch.getBassValue(rootName));
-        Integer majorThird = pitch.getThirdOfMiddleRegister(rootName);
+        Integer bassPitch = pitch.getBassValue(chordModel.getRoot());
+        Integer majorThird = pitch.getThirdOfMiddleRegister(chordModel.getRoot());
         Integer third = (majorThird + offset[0]);
         Integer fifth = majorThird + offset[1];
         Integer topNote = majorThird + offset[2];
@@ -65,10 +69,8 @@ public class ChordBuilder {
         return null;
     }
 
-    public static Chord build(String inputChord, Pitch pitch){
+    public Chord build(String inputChord, Pitch pitch){
         ArrayList chordTones = getPitchesAsBytes(inputChord, pitch);
         return new Chord(chordTones);
     }
 }
-
-// Aumtumn Leaves Chords: Am, D7, G, C, F#ø, B7, Em, Em

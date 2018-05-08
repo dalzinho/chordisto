@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.codeclan.example.chordisto.MainActivity">
+    tools:context=".android.activity.MainActivity">
 
     <TextView
         android:id="@+id/song_title"

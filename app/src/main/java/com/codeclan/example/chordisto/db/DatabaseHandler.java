@@ -1,4 +1,4 @@
-package com.codeclan.example.chordisto;
+package com.codeclan.example.chordisto.db;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -6,8 +6,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.codeclan.example.chordisto.model.Song;
+
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by user on 06/03/2017.

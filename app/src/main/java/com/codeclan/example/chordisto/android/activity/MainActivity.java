@@ -1,25 +1,27 @@
-package com.codeclan.example.chordisto;
+package com.codeclan.example.chordisto.android.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.StringDef;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
-
-//import com.facebook.stetho.Stetho;
+import com.codeclan.example.chordisto.util.Parser;
+import com.codeclan.example.chordisto.model.Pitch;
+import com.codeclan.example.chordisto.R;
+import com.codeclan.example.chordisto.android.util.SaveLastSequenceToPreferences;
+import com.codeclan.example.chordisto.model.Song;
+import com.codeclan.example.chordisto.util.SongBuilder;
+import com.codeclan.example.chordisto.db.DatabaseHandler;
+import com.codeclan.example.chordisto.model.Chord;
+import com.codeclan.example.chordisto.util.ChordBuilder;
 
 import org.billthefarmer.mididriver.MidiDriver;
-
-import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener  {
 
@@ -30,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     private EditText loopsInput;
     private Pitch pitch;
     private BottomNavigationView bottomNavigationMenu;
+    private ChordBuilder chordBuilder;
 
     private DatabaseHandler dbHandler;
 
@@ -38,12 +41,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         super.onCreate(savedInstanceState);
         dbHandler = new DatabaseHandler(this);
         setContentView(R.layout.activity_main);
-
-//        Stetho.newInitializerBuilder(this)
-//                .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
-//                .enableWebKitInspector(Stetho.defaultInspectorModulesProvider(this))
-//                .build();
-
+        chordBuilder = new ChordBuilder(new Parser());
         chordsInput = (EditText)findViewById(R.id.chord_input_area);
         tempoInput = (EditText)findViewById(R.id.tempo_input);
         loopsInput = (EditText)findViewById(R.id.loops_input);
@@ -89,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     }
 
     private void playChord(String inputChord) {
-        Chord chord = ChordBuilder.build(inputChord, pitch);
+        Chord chord = chordBuilder.build(inputChord, pitch);
         midiDriver.write(chord.getRoot());
         midiDriver.write(chord.getThird());
         midiDriver.write(chord.getFifth());
