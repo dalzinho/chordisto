@@ -11,26 +11,26 @@ import org.billthefarmer.mididriver.MidiDriver;
  * Created by john on 09/05/18.
  */
 
-public class AndroidPlayer implements Player {
+public class AndroidPlayer extends Thread {
 
-    private MidiDriver midiDriver;
+    private MidiDriver midiDriver = new MidiDriver();
+    private ChordSequence chords;
+    private int tempo, loops;
 
-    public AndroidPlayer() {
-        midiDriver = new MidiDriver();
+    public AndroidPlayer(ChordSequence chords, int tempo, int loops) {
+        this.chords = chords;
+        this.tempo = calculateTempo(tempo);
+        this.loops = loops;
     }
-
-    @Override
-    public void play(ChordSequence chords, int tempo, int loops) {
-        playChordSequence(chords, calculateTempo(tempo), loops);
-    }
-
 
     @NonNull
     private Integer calculateTempo(int tempo) {
         return 60000 / (tempo);
     }
 
-    private void playChordSequence(ChordSequence chords, int tempo, int loops) {
+
+    @Override
+    public void run() {
         int loopCounter = 0;
         int loopLimit = loops;
 
@@ -61,4 +61,5 @@ public class AndroidPlayer implements Player {
         midiDriver.write(chord.getFifth());
         midiDriver.write(chord.getTopNote());
     }
+
 }

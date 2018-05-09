@@ -35,14 +35,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     private Pitch pitch;
     private BottomNavigationView bottomNavigationMenu;
     private ChordBuilder chordBuilder;
-    private Player player;
     private Parser parser = new Parser();
     private DatabaseHandler dbHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        player = new AndroidPlayer();
         dbHandler = new DatabaseHandler(this);
         chordBuilder = new ChordBuilder(new Parser(), new Pitch());
         midiDriver = new MidiDriver();
@@ -118,7 +116,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             chords.addChord(chordBuilder.build(chord));
         }
 
-        player.play(chords, Integer.parseInt(input.getTempo()), Integer.parseInt(input.getLoopCount()));
+        AndroidPlayer player = new AndroidPlayer(chords, Integer.parseInt(input.getTempo()), Integer.parseInt(input.getLoopCount()));
+        player.start();
 
 
         SaveLastSequenceToPreferences.setStoredSequence(this,chordsInput.getText().toString(), Integer.parseInt(tempoInput.getText().toString()));
