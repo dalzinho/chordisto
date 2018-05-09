@@ -1,4 +1,4 @@
-package com.codeclan.example.chordisto.model;
+package com.codeclan.example.chordisto.util;
 
 import com.codeclan.example.chordisto.chordenums.RootName;
 

@@ -11,14 +11,16 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.codeclan.example.chordisto.model.ChordSequence;
+import com.codeclan.example.chordisto.model.UserInput;
+import com.codeclan.example.chordisto.player.AndroidPlayer;
+import com.codeclan.example.chordisto.player.Player;
 import com.codeclan.example.chordisto.util.Parser;
-import com.codeclan.example.chordisto.model.Pitch;
+import com.codeclan.example.chordisto.util.Pitch;
 import com.codeclan.example.chordisto.R;
 import com.codeclan.example.chordisto.android.util.SaveLastSequenceToPreferences;
 import com.codeclan.example.chordisto.model.Song;
-import com.codeclan.example.chordisto.util.SongBuilder;
 import com.codeclan.example.chordisto.db.DatabaseHandler;
-import com.codeclan.example.chordisto.model.Chord;
 import com.codeclan.example.chordisto.util.ChordBuilder;
 
 import org.billthefarmer.mididriver.MidiDriver;
@@ -33,22 +35,27 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     private Pitch pitch;
     private BottomNavigationView bottomNavigationMenu;
     private ChordBuilder chordBuilder;
-
+    private Player player;
+    private Parser parser = new Parser();
     private DatabaseHandler dbHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        player = new AndroidPlayer();
         dbHandler = new DatabaseHandler(this);
+        chordBuilder = new ChordBuilder(new Parser(), new Pitch());
+        midiDriver = new MidiDriver();
+        pitch = new Pitch();
+        Intent intent = getIntent();
+
         setContentView(R.layout.activity_main);
-        chordBuilder = new ChordBuilder(new Parser());
         chordsInput = (EditText)findViewById(R.id.chord_input_area);
         tempoInput = (EditText)findViewById(R.id.tempo_input);
         loopsInput = (EditText)findViewById(R.id.loops_input);
         songTitle = (TextView)findViewById(R.id.song_title);
         bottomNavigationMenu = (BottomNavigationView) findViewById(R.id.bottom_nav);
 
-        Intent intent = getIntent();
         Bundle extras = intent.getExtras();
         if (extras != null && extras.containsKey("id")){
             int songId = extras.getInt("id");
@@ -58,8 +65,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             tempoInput.setText(String.valueOf(song.getTempo()));
         }
 
-        midiDriver = new MidiDriver();
-        pitch = new Pitch();
         dbHandler = new DatabaseHandler(this);
 
         chordsInput.setText(SaveLastSequenceToPreferences.getStoredSequence(this));
@@ -86,65 +91,35 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         midiDriver.stop();
     }
 
-    private void playChord(String inputChord) {
-        Chord chord = chordBuilder.build(inputChord, pitch);
-        midiDriver.write(chord.getRoot());
-        midiDriver.write(chord.getThird());
-        midiDriver.write(chord.getFifth());
-        midiDriver.write(chord.getTopNote());
-
+    private UserInput getUserInputFromUI() {
+        UserInput input = new UserInput();
+        input.setTitle(songTitle.getText().toString());
+        input.setChords(chordsInput.getText().toString());
+        input.setTempo(tempoInput.getText().toString());
+        input.setLoopCount(loopsInput.getText().toString());
+        return input;
     }
-
-    private String[] getUsableVariables(){
-        String[] variables = {
-                songTitle.getText().toString(),
-                chordsInput.getText().toString(),
-                tempoInput.getText().toString()
-        };
-
-        return variables;
-    }
-
+    
     public void playMusic(View button) {
-        if(chordsInput.getText().toString().isEmpty()){
-            chordsInput.setText("C");
+        UserInput input = getUserInputFromUI();
+
+        if(input.getChords().isEmpty()){
+            input.setChords("C");
         }
-        if(tempoInput.getText().toString().isEmpty()){
-            tempoInput.setText(String.valueOf(100));
+        if(input.getTempo().isEmpty()){
+            input.setTempo(String.valueOf(100));
         }
-        if(loopsInput.getText().toString().isEmpty()){
-            loopsInput.setText((String.valueOf(1)));
+        if(input.getLoopCount().isEmpty()){
+            input.setLoopCount((String.valueOf(1)));
         }
 
+        ChordSequence chords = new ChordSequence();
+        for(String chord : parser.splitString(input.getChords())) {
+            chords.addChord(chordBuilder.build(chord));
+        }
 
+        player.play(chords, Integer.parseInt(input.getTempo()), Integer.parseInt(input.getLoopCount()));
 
-        Integer tempo = 60000 / (Integer.parseInt(tempoInput.getText().toString()));
-        String[] variables = getUsableVariables();
-
-        Song song = SongBuilder.run(variables[0], variables[1], Integer.parseInt(variables[2]));
-
-        int loopCounter = 0;
-        int loopLimit = Integer.parseInt(loopsInput.getText().toString());
-
-        do {
-
-            for (String currentChord : song.getChordsAsArray()) {
-                int beatCount = 0;
-                do {
-                    playChord(currentChord);
-                    try {
-                        Thread.sleep(tempo);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    beatCount++;
-                }
-                while (beatCount < 4);
-            }
-
-            loopCounter++;
-
-        } while (loopCounter < loopLimit);
 
         SaveLastSequenceToPreferences.setStoredSequence(this,chordsInput.getText().toString(), Integer.parseInt(tempoInput.getText().toString()));
     }
@@ -162,9 +137,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-
-        String toastText = null;
-
+        
         switch (item.getItemId()) {
             case R.id.music_screen_button:
                 break;

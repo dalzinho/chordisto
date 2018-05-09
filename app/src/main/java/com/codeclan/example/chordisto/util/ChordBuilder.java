@@ -1,8 +1,7 @@
 package com.codeclan.example.chordisto.util;
 
-import com.codeclan.example.chordisto.model.Pitch;
 import com.codeclan.example.chordisto.chordenums.TriadType;
-import com.codeclan.example.chordisto.model.Chord;
+import com.codeclan.example.chordisto.model.ChordToneModel;
 import com.codeclan.example.chordisto.model.ChordModel;
 
 import java.util.ArrayList;
@@ -14,12 +13,14 @@ import java.util.ArrayList;
 public class ChordBuilder {
 
     private Parser parser;
+    private Pitch pitch;
 
-    public ChordBuilder(Parser parser) {
+    public ChordBuilder(Parser parser, Pitch pitch) {
         this.parser = parser;
+        this.pitch = pitch;
     }
 
-    public ArrayList<Byte> getPitchesAsBytes(String chord, Pitch pitch){
+    public ArrayList<Byte> getPitchesAsBytes(String chord){
         ArrayList<Byte> chordTones = new ArrayList<>();
 
         //get root and triad info from parser, unpack and cast into usuable types
@@ -69,8 +70,8 @@ public class ChordBuilder {
         return null;
     }
 
-    public Chord build(String inputChord, Pitch pitch){
-        ArrayList chordTones = getPitchesAsBytes(inputChord, pitch);
-        return new Chord(chordTones);
+    public ChordToneModel build(String inputChord){
+        ArrayList chordTones = getPitchesAsBytes(inputChord);
+        return new ChordToneModel(chordTones);
     }
 }

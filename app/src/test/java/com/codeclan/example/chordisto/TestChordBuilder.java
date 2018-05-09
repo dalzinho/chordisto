@@ -1,6 +1,6 @@
 package com.codeclan.example.chordisto;
 
-import com.codeclan.example.chordisto.model.Pitch;
+import com.codeclan.example.chordisto.util.Pitch;
 import com.codeclan.example.chordisto.util.ChordBuilder;
 import com.codeclan.example.chordisto.util.Parser;
 
@@ -25,37 +25,31 @@ public class TestChordBuilder {
     @Before
     public void setup(){
         pitch = new Pitch();
-        chordBuilder = new ChordBuilder(new Parser());
-    }
-
-    @Test
-    public void shutUp(){
-        assertEquals(1, 1);
+        chordBuilder = new ChordBuilder(new Parser(), new Pitch());
     }
 
     @Test
     public void testAskingForChordReturnsFourNumbers(){
-        ArrayList<Byte> chordTones = chordBuilder.getPitchesAsBytes("C", pitch);
+        ArrayList<Byte> chordTones = chordBuilder.getPitchesAsBytes("C");
         assertEquals(4, chordTones.size());
     }
 
     @Test
     public void testAskingForMajorChordReturnsTheCorrectNumbers(){
-        ArrayList<Byte> chordTones = chordBuilder.getPitchesAsBytes("D", pitch);
+        ArrayList<Byte> chordTones = chordBuilder.getPitchesAsBytes("D");
         assertTrue(chordTones.contains((byte) 0x32));
     }
 
     @Test
     public void testPullsCorrectTonesForMinorChords(){
-        ArrayList<Byte> chordTones = chordBuilder.getPitchesAsBytes("Em", pitch);
+        ArrayList<Byte> chordTones = chordBuilder.getPitchesAsBytes("Em");
         assertTrue(chordTones.contains((byte) 0x34));
     }
 
     @Test
     public void testReturnsDominantMidiNotes(){
-        ArrayList<Byte> chordTones = chordBuilder.getPitchesAsBytes("G7", pitch);
+        ArrayList<Byte> chordTones = chordBuilder.getPitchesAsBytes("G7");
         assertTrue(chordTones.contains((byte) 0x37));
-
     }
 
 }

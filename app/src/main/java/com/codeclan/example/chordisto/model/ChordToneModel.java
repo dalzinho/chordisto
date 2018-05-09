@@ -6,14 +6,14 @@ import java.util.ArrayList;
  * Created by user on 06/03/2017.
  */
 
-public class Chord {
+public class ChordToneModel {
 
     private byte[] root;
     private byte[] third;
     private byte[] fifth;
     private byte[] topNote;
 
-    public Chord(ArrayList<Byte> chordTones) {
+    public ChordToneModel(ArrayList<Byte> chordTones) {
 
         Integer velocity = 63;
 
