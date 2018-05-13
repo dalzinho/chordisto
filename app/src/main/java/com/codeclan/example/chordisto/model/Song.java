@@ -1,6 +1,6 @@
 package com.codeclan.example.chordisto.model;
 
-import com.codeclan.example.chordisto.util.Parser;
+import com.codeclan.example.chordisto.parser.RegexParser;
 
 /**
  * Created by user on 06/03/2017.
@@ -12,7 +12,7 @@ public class Song {
     String songTitle;
     String chords;
     int tempo;
-    Parser parser = new Parser();
+    RegexParser parser = new RegexParser();
 
     public Song(){
         //hooray for method overloading.
@@ -43,10 +43,7 @@ public class Song {
     public String getChords() {
         return chords;
     }
-    public String[] getChordsAsArray() {
-        String[] arrayOfChords = parser.splitString(chords);
-        return arrayOfChords;
-    }
+
     public int getTempo() {
         return tempo;
     }
