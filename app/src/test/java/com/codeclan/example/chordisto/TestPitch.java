@@ -1,5 +1,8 @@
 package com.codeclan.example.chordisto;
 
+import com.codeclan.example.chordisto.model.Pitch;
+import com.codeclan.example.chordisto.parser.Parser;
+
 import org.junit.Before;
 import org.junit.Test;
 

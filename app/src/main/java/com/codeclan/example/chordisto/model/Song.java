@@ -1,4 +1,8 @@
-package com.codeclan.example.chordisto;
+package com.codeclan.example.chordisto.model;
+
+import com.codeclan.example.chordisto.parser.Parser;
+
+import java.util.List;
 
 /**
  * Created by user on 06/03/2017.
@@ -10,6 +14,8 @@ public class Song {
     String songTitle;
     String chords;
     int tempo;
+    int loops;
+    List<Chord> sequence;
 
     public Song(){
         //hooray for method overloading.
@@ -28,7 +34,6 @@ public class Song {
         this.tempo = tempo;
     }
 
-    //getters
     public int getId() {
         return id;
     }
@@ -40,6 +45,7 @@ public class Song {
     public String getChords() {
         return chords;
     }
+
     public String[] getChordsAsArray() {
         String[] arrayOfChords = Parser.splitString(chords);
         return arrayOfChords;
@@ -48,9 +54,6 @@ public class Song {
     public int getTempo() {
         return tempo;
     }
-
-
-    //setters
 
     public void setSongTitle(String songTitle) {
         this.songTitle = songTitle;
@@ -66,7 +69,21 @@ public class Song {
 
     public void setId(int id) {
         this.id = id;
+    }
 
+    public int getLoops() {
+        return loops;
+    }
 
+    public void setLoops(int loops) {
+        this.loops = loops;
+    }
+
+    public List<Chord> getSequence() {
+        return sequence;
+    }
+
+    public void setSequence(List<Chord> sequence) {
+        this.sequence = sequence;
     }
 }

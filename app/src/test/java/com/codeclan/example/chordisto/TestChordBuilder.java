@@ -1,9 +1,10 @@
 package com.codeclan.example.chordisto;
 
+import com.codeclan.example.chordisto.model.Pitch;
+import com.codeclan.example.chordisto.parser.ChordBuilder;
+
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.ArrayList;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;

@@ -1,4 +1,4 @@
-package com.codeclan.example.chordisto;
+package com.codeclan.example.chordisto.dao;
 
 import android.content.Context;
 import android.preference.PreferenceManager;

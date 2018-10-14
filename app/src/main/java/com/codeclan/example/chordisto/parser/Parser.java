@@ -1,9 +1,14 @@
-package com.codeclan.example.chordisto;
+package com.codeclan.example.chordisto.parser;
 
+import com.codeclan.example.chordisto.model.Chord;
+import com.codeclan.example.chordisto.model.ChordInfo;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.codeclan.example.chordisto.TriadType.*;
+import static com.codeclan.example.chordisto.parser.TriadType.*;
 
 /**
  * Created by user on 03/03/2017.
@@ -11,12 +16,7 @@ import static com.codeclan.example.chordisto.TriadType.*;
 
 public class Parser {
 
-    //instance variables
-    private static TriadType triad;
 
-    //getters
-
-    //los métodos
     public static String[] splitString(String string) {
         return string.split("[, ]+");
     }
@@ -53,7 +53,7 @@ public class Parser {
     }
 
     private static TriadType setTriad(String triadInfo) {
-        triad = null;
+        TriadType triad = null;
         if (triadInfo == null) {
             triad = MAJOR;
         } else if (triadInfo.equals("m")) {
@@ -70,14 +70,13 @@ public class Parser {
         return triad;
     }
 
-    public static boolean isFlat(String rootInfo) {
+    private static boolean isFlat(String rootInfo) {
         Pattern pattern = Pattern.compile("([A-Ga-g])(b)");
         Matcher matcher = pattern.matcher(rootInfo);
-        String flatToSharp = null;
         return matcher.matches();
     }
 
-    public static String setFlatsToSharp(String rootInfo) {
+    private static String setFlatsToSharp(String rootInfo) {
 
         switch (rootInfo) {
             case ("Db"):
@@ -95,25 +94,47 @@ public class Parser {
         return null;
     }
 
-    public static Chordable[] setVariables(String chord) {
-        TriadType triadType = null;
-        RootName rootName = null;
-        String theRest = null;
+    public static List<Chord> parse(String chordInput) {
+        List<ChordInfo> infos = transformChordsString(chordInput);
+        return transformChordInfoList(infos);
+
+    }
+
+    private static List<ChordInfo> transformChordsString(String chordInput) {
+        List<ChordInfo> infos = new ArrayList<>();
+
+        for (String chord : splitString(chordInput)) {
+            infos.add(parseString(chord));
+        }
+        return infos;
+    }
+
+    private static List<Chord> transformChordInfoList(List<ChordInfo> infos) {
+        List<Chord> chords = new ArrayList<>();
+
+        for (ChordInfo info : infos) {
+            chords.add(ChordBuilder.build(info));
+        }
+        return chords;
+    }
+
+    public static ChordInfo parseString(String chordSymbol) {
+        ChordInfo info = new ChordInfo();
         Pattern pattern = Pattern.compile("([A-Ga-g][b#]?)([m7oø+])?(.*)");
-        Matcher m = pattern.matcher(chord);
+        Matcher m = pattern.matcher(chordSymbol);
 
         if (m.matches()) {
+            RootName root;
             if (isFlat(m.group(1))){
-                rootName = setRoot(setFlatsToSharp(m.group(1)));
+                root = setRoot(setFlatsToSharp(m.group(1)));
             } else {
-                rootName = setRoot(m.group(1).toUpperCase());
+                root = setRoot(m.group(1).toUpperCase());
             }
-
-            triadType = setTriad(m.group(2));
-            theRest = m.group(3);
+            info.setRootName(root);
+            info.setTriadType(setTriad(m.group(2)));
+            info.setTheRest(m.group(3));
         }
 
-        Chordable[] chordInfo = {rootName, triadType};
-        return chordInfo;
+        return info;
     }
 }

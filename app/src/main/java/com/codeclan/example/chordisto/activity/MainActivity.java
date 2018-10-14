@@ -1,36 +1,54 @@
-package com.codeclan.example.chordisto;
+package com.codeclan.example.chordisto.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.StringDef;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 //import com.facebook.stetho.Stetho;
 
+import com.codeclan.example.chordisto.parser.ChordBuilder;
+import com.codeclan.example.chordisto.model.Pitch;
+import com.codeclan.example.chordisto.R;
+import com.codeclan.example.chordisto.model.Song;
+import com.codeclan.example.chordisto.parser.Parser;
+import com.codeclan.example.chordisto.parser.SongBuilder;
+import com.codeclan.example.chordisto.dao.DatabaseHandler;
+import com.codeclan.example.chordisto.dao.SaveLastSequenceToPreferences;
+import com.codeclan.example.chordisto.model.Chord;
+import com.codeclan.example.chordisto.player.Player;
+import com.codeclan.example.chordisto.util.Helper;
+
 import org.billthefarmer.mididriver.MidiDriver;
 
-import java.util.ArrayList;
+import java.util.List;
+
+import javax.inject.Inject;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener  {
 
+    @Inject
     private MidiDriver midiDriver;
+
+    private Player player;
+
+    @Inject
+    MainActivity(Player player) {
+        this.player = player;
+    }
+
     private TextView songTitle;
     private EditText chordsInput;
     private EditText tempoInput;
     private EditText loopsInput;
-    private Pitch pitch;
     private BottomNavigationView bottomNavigationMenu;
-
     private DatabaseHandler dbHandler;
 
     @Override
@@ -38,11 +56,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         super.onCreate(savedInstanceState);
         dbHandler = new DatabaseHandler(this);
         setContentView(R.layout.activity_main);
-
-//        Stetho.newInitializerBuilder(this)
-//                .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
-//                .enableWebKitInspector(Stetho.defaultInspectorModulesProvider(this))
-//                .build();
 
         chordsInput = (EditText)findViewById(R.id.chord_input_area);
         tempoInput = (EditText)findViewById(R.id.tempo_input);
@@ -61,7 +74,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         }
 
         midiDriver = new MidiDriver();
-        pitch = new Pitch();
         dbHandler = new DatabaseHandler(this);
 
         chordsInput.setText(SaveLastSequenceToPreferences.getStoredSequence(this));
@@ -88,69 +100,24 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         midiDriver.stop();
     }
 
-    private void playChord(String inputChord) {
-        Chord chord = ChordBuilder.build(inputChord, pitch);
-        midiDriver.write(chord.getRoot());
-        midiDriver.write(chord.getThird());
-        midiDriver.write(chord.getFifth());
-        midiDriver.write(chord.getTopNote());
-
-    }
-
-    private String[] getUsableVariables(){
-        String[] variables = {
-                songTitle.getText().toString(),
-                chordsInput.getText().toString(),
-                tempoInput.getText().toString()
-        };
-
-        return variables;
-    }
-
     public void playMusic(View button) {
-        if(chordsInput.getText().toString().isEmpty()){
-            chordsInput.setText("C");
-        }
-        if(tempoInput.getText().toString().isEmpty()){
-            tempoInput.setText(String.valueOf(100));
-        }
-        if(loopsInput.getText().toString().isEmpty()){
-            loopsInput.setText((String.valueOf(1)));
-        }
 
-
-
-        Integer tempo = 60000 / (Integer.parseInt(tempoInput.getText().toString()));
-        String[] variables = getUsableVariables();
-
-        Song song = SongBuilder.run(variables[0], variables[1], Integer.parseInt(variables[2]));
-
-        int loopCounter = 0;
-        int loopLimit = Integer.parseInt(loopsInput.getText().toString());
-
-        do {
-
-            for (String currentChord : song.getChordsAsArray()) {
-                int beatCount = 0;
-                do {
-                    playChord(currentChord);
-                    try {
-                        Thread.sleep(tempo);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    beatCount++;
-                }
-                while (beatCount < 4);
-            }
-
-            loopCounter++;
-
-        } while (loopCounter < loopLimit);
-
+        player.play(songFromInputs());
         SaveLastSequenceToPreferences.setStoredSequence(this,chordsInput.getText().toString(), Integer.parseInt(tempoInput.getText().toString()));
     }
 
+    private Song songFromInputs() {
+        Song song = new Song();
+        int tempo = Helper.calculateTempo(tempoInput.getText().toString());
+        List<Chord> chords = Parser.parse(chordsInput.getText().toString());
+        int loops = Integer.parseInt(loopsInput.getText().toString());
+
+        song.setTempo(tempo);
+        song.setSequence(chords);
+        song.setLoops(loops);
+
+        return song;
+    }
 
     public void saveToSongBook(View button){
         String chords = chordsInput.getText().toString();

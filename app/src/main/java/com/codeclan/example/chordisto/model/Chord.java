@@ -1,4 +1,4 @@
-package com.codeclan.example.chordisto;
+package com.codeclan.example.chordisto.model;
 
 import java.util.ArrayList;
 
@@ -13,30 +13,31 @@ public class Chord {
     private byte[] fifth;
     private byte[] topNote;
 
+    public Chord() {}
+
     public Chord(ArrayList<Byte> chordTones){
 
         Integer velocity = 63;
 
         root = new byte[3];
-        root[0] = (byte) (0x90 | 0x00);
+        root[0] = (byte) (0x90);
         root[1] = chordTones.get(0);
         root[2] = velocity.byteValue();
 
         third = new byte[3];
-        third[0] = (byte) (0x90 | 0x00);
+        third[0] = (byte) (0x90);
         third[1] = chordTones.get(1);
         third[2] = velocity.byteValue();
 
         fifth = new byte[3];
-        fifth[0] = (byte) (0x90 | 0x00);
+        fifth[0] = (byte) (0x90);
         fifth[1] = chordTones.get(2);
         fifth[2] = velocity.byteValue();
 
         topNote = new byte[3];
-        topNote[0] = (byte) (0x90 | 0x00);
+        topNote[0] = (byte) (0x90);
         topNote[1] = chordTones.get(3);
         topNote[2] = velocity.byteValue();
-
     }
 
     public byte[] getRoot() {

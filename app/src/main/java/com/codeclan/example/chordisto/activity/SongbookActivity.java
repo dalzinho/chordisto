@@ -1,22 +1,19 @@
-package com.codeclan.example.chordisto;
+package com.codeclan.example.chordisto.activity;
 
 import android.content.Intent;
-import android.database.DataSetObserver;
-import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
+
+import com.codeclan.example.chordisto.R;
+import com.codeclan.example.chordisto.model.Song;
+import com.codeclan.example.chordisto.dao.DatabaseHandler;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class SongbookActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 

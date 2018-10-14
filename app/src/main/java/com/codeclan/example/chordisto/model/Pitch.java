@@ -1,7 +1,8 @@
-package com.codeclan.example.chordisto;
+package com.codeclan.example.chordisto.model;
+
+import com.codeclan.example.chordisto.parser.RootName;
 
 import java.util.ArrayList;
-import static com.codeclan.example.chordisto.RootName.*;
 
 /**
  * Created by user on 03/03/2017.
@@ -45,7 +46,6 @@ public class Pitch {
 
     }
 
-    //some getters
 
     public ArrayList<Integer> getBassPitchNumbers() {
         return bassPitchNumbers;

@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Chordisto.iml" filepath="$PROJECT_DIR$/Chordisto.iml" />
       <module fileurl="file://$PROJECT_DIR$/MidiDriver-all-release/MidiDriver-all-release.iml" filepath="$PROJECT_DIR$/MidiDriver-all-release/MidiDriver-all-release.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/chordisto.iml" filepath="$PROJECT_DIR$/chordisto.iml" />
     </modules>
   </component>
 </project>

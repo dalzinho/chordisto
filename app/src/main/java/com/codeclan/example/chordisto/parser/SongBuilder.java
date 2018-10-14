@@ -1,4 +1,6 @@
-package com.codeclan.example.chordisto;
+package com.codeclan.example.chordisto.parser;
+
+import com.codeclan.example.chordisto.model.Song;
 
 /**
  * Created by user on 07/03/2017.

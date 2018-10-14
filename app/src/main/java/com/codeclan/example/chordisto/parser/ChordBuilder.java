@@ -1,8 +1,13 @@
-package com.codeclan.example.chordisto;
+package com.codeclan.example.chordisto.parser;
+
+import com.codeclan.example.chordisto.model.Chord;
+import com.codeclan.example.chordisto.model.ChordInfo;
+import com.codeclan.example.chordisto.model.Pitch;
+import com.codeclan.example.chordisto.player.Chordable;
 
 import java.util.ArrayList;
 
-import static com.codeclan.example.chordisto.TriadType.*;
+import javax.inject.Inject;
 
 /**
  * Created by user on 03/03/2017.
@@ -11,17 +16,14 @@ import static com.codeclan.example.chordisto.TriadType.*;
 public class ChordBuilder {
 
 
-    private static ArrayList<Byte> getPitchesAsBytes(String chord, Pitch pitch){
+    private static ArrayList<Byte> getPitchesAsBytes(ChordInfo chordInfo){
 
-        //instantiate byte array of chord tones
         ArrayList<Byte> chordTones = new ArrayList<>();
+        Pitch pitch = new Pitch();
 
-        //get root and triad info from parser, unpack and cast into usuable types
-        Chordable[] chordInfo = Parser.setVariables(chord);
-        RootName rootName = (RootName) chordInfo[0];
-        TriadType triadType = (TriadType) chordInfo[1];
+        RootName rootName = chordInfo.getRootName();
+        TriadType triadType = chordInfo.getTriadType();
 
-        //get offsets from offset method
         int[] offset = setChordToneOffset(triadType);
 
         Integer bassPitch = (pitch.getBassValue(rootName));
@@ -65,8 +67,8 @@ public class ChordBuilder {
         return null;
     }
 
-    public static Chord build(String inputChord, Pitch pitch){
-        ArrayList chordTones = getPitchesAsBytes(inputChord, pitch);
+    public static Chord build(ChordInfo info){
+        ArrayList chordTones = getPitchesAsBytes(info);
         return new Chord(chordTones);
     }
 }
