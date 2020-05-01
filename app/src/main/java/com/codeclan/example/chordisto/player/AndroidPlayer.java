@@ -11,7 +11,7 @@ import org.billthefarmer.mididriver.MidiDriver;
  * Created by john on 09/05/18.
  */
 
-public class AndroidPlayer extends Thread implements Player {
+public class AndroidPlayer extends Thread {
 
     private MidiDriver midiDriver = new MidiDriver();
     private ChordSequence chords;
@@ -31,19 +31,6 @@ public class AndroidPlayer extends Thread implements Player {
 
     @Override
     public void run() {
-       play();
-    }
-
-
-    private void playChord(ChordToneModel chord) {
-        midiDriver.write(chord.getRoot());
-        midiDriver.write(chord.getThird());
-        midiDriver.write(chord.getFifth());
-        midiDriver.write(chord.getTopNote());
-    }
-
-    @Override
-    public void play() {
         int loopCounter = 0;
         int loopLimit = loops;
 
@@ -68,14 +55,11 @@ public class AndroidPlayer extends Thread implements Player {
         } while (loopCounter < loopLimit);
     }
 
-    @Override
-    public void pause() {
-        midiDriver.stop();
-    }
-
-    @Override
-    public void restart() {
-        midiDriver.start();
+    private void playChord(ChordToneModel chord) {
+        midiDriver.write(chord.getRoot());
+        midiDriver.write(chord.getThird());
+        midiDriver.write(chord.getFifth());
+        midiDriver.write(chord.getTopNote());
     }
 
 }

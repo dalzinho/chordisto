@@ -10,7 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.codeclan.example.chordisto.R;
-import com.codeclan.example.chordisto.app.MainActivity;
+import com.codeclan.example.chordisto.android.activity.MainActivity;
 import com.codeclan.example.chordisto.db.DatabaseHandler;
 import com.codeclan.example.chordisto.model.Song;
 

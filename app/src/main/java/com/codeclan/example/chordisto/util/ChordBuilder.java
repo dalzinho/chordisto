@@ -3,12 +3,8 @@ package com.codeclan.example.chordisto.util;
 import com.codeclan.example.chordisto.chordenums.TriadType;
 import com.codeclan.example.chordisto.model.ChordToneModel;
 import com.codeclan.example.chordisto.model.ChordModel;
-import com.codeclan.example.chordisto.parser.Parser;
-import com.codeclan.example.chordisto.parser.RegexParser;
 
 import java.util.ArrayList;
-
-import javax.inject.Inject;
 
 /**
  * Created by user on 03/03/2017.
@@ -16,19 +12,25 @@ import javax.inject.Inject;
 
 public class ChordBuilder {
 
+    private Parser parser;
     private Pitch pitch;
 
-    public ChordBuilder(Pitch pitch) {
+    public ChordBuilder(Parser parser, Pitch pitch) {
+        this.parser = parser;
         this.pitch = pitch;
     }
 
-    private ArrayList<Byte> getPitchesAsBytes(ChordModel model){
+    public ArrayList<Byte> getPitchesAsBytes(String chord){
         ArrayList<Byte> chordTones = new ArrayList<>();
 
-        int[] offset = setChordToneOffset(model.getType());
+        //get root and triad info from parser, unpack and cast into usuable types
+        ChordModel chordModel = parser.setVariables(chord);
 
-        Integer bassPitch = pitch.getBassValue(model.getRoot());
-        Integer majorThird = pitch.getThirdOfMiddleRegister(model.getRoot());
+        //get offsets from offset method
+        int[] offset = setChordToneOffset(chordModel.getType());
+
+        Integer bassPitch = pitch.getBassValue(chordModel.getRoot());
+        Integer majorThird = pitch.getThirdOfMiddleRegister(chordModel.getRoot());
         Integer third = (majorThird + offset[0]);
         Integer fifth = majorThird + offset[1];
         Integer topNote = majorThird + offset[2];
@@ -68,8 +70,8 @@ public class ChordBuilder {
         return null;
     }
 
-    public ChordToneModel build(ChordModel model){
-        ArrayList<Byte> chordTones = getPitchesAsBytes(model);
+    public ChordToneModel build(String inputChord){
+        ArrayList chordTones = getPitchesAsBytes(inputChord);
         return new ChordToneModel(chordTones);
     }
 }

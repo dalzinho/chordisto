@@ -1,5 +1,9 @@
 package com.codeclan.example.chordisto.player;
 
+import android.view.View;
+
+import com.codeclan.example.chordisto.model.ChordSequence;
+import com.codeclan.example.chordisto.model.UserInput;
 
 /**
  * Created by john on 09/05/18.
@@ -7,11 +11,5 @@ package com.codeclan.example.chordisto.player;
 
 public interface Player {
 
-    void start();
-
-    void play();
-
-    void pause();
-
-    void restart();
+    void play(ChordSequence sequence, int tempo, int loops);
 }

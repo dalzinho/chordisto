@@ -1,7 +1,7 @@
 package com.codeclan.example.chordisto;
 
 import com.codeclan.example.chordisto.util.Pitch;
-import com.codeclan.example.chordisto.parser.RegexParser;
+import com.codeclan.example.chordisto.util.Parser;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -14,12 +14,12 @@ import static junit.framework.Assert.assertEquals;
 
 public class TestPitch {
 
-    RegexParser parser;
+    Parser parser;
     Pitch pitch;
 
     @Before
     public void setup() {
-        parser = new RegexParser();
+        parser = new Parser();
         pitch = new Pitch();
     }
 

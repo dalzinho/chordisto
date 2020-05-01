@@ -1,24 +1,21 @@
-package com.codeclan.example.chordisto.app;
+package com.codeclan.example.chordisto.android.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.codeclan.example.chordisto.android.activity.SaveAndEditActivity;
-import com.codeclan.example.chordisto.android.activity.SongbookActivity;
-import com.codeclan.example.chordisto.model.ChordModel;
 import com.codeclan.example.chordisto.model.ChordSequence;
 import com.codeclan.example.chordisto.model.UserInput;
-import com.codeclan.example.chordisto.parser.Parser;
 import com.codeclan.example.chordisto.player.AndroidPlayer;
-import com.codeclan.example.chordisto.parser.RegexParser;
 import com.codeclan.example.chordisto.player.Player;
+import com.codeclan.example.chordisto.util.Parser;
 import com.codeclan.example.chordisto.util.Pitch;
 import com.codeclan.example.chordisto.R;
 import com.codeclan.example.chordisto.android.util.SaveLastSequenceToPreferences;
@@ -26,26 +23,28 @@ import com.codeclan.example.chordisto.model.Song;
 import com.codeclan.example.chordisto.db.DatabaseHandler;
 import com.codeclan.example.chordisto.util.ChordBuilder;
 
-import java.util.List;
+import org.billthefarmer.mididriver.MidiDriver;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener  {
 
+    private MidiDriver midiDriver;
     private TextView songTitle;
     private EditText chordsInput;
     private EditText tempoInput;
     private EditText loopsInput;
-    private Player player;
+    private Pitch pitch;
     private BottomNavigationView bottomNavigationMenu;
     private ChordBuilder chordBuilder;
-    private Parser parser;
+    private Parser parser = new Parser();
     private DatabaseHandler dbHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         dbHandler = new DatabaseHandler(this);
-        chordBuilder = new ChordBuilder(new Pitch());
-        parser = new RegexParser();
+        chordBuilder = new ChordBuilder(new Parser(), new Pitch());
+        midiDriver = new MidiDriver();
+        pitch = new Pitch();
         Intent intent = getIntent();
 
         setContentView(R.layout.activity_main);
@@ -74,13 +73,20 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     @Override
     protected void onResume() {
         super.onResume();
-        player.restart();
+        midiDriver.start();
+
+        int[] config = midiDriver.config();
+
+        Log.d(this.getClass().getName(), "maxVoices: " + config[0]);
+        Log.d(this.getClass().getName(), "numChannels: " + config[1]);
+        Log.d(this.getClass().getName(), "sampleRate: " + config[2]);
+        Log.d(this.getClass().getName(), "mixBufferSize: " + config[3]);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        player.pause();
+        midiDriver.stop();
     }
 
     private UserInput getUserInputFromUI() {
@@ -105,16 +111,14 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             input.setLoopCount((String.valueOf(1)));
         }
 
-        List<ChordModel> chordModels = parser.getChordModelsFromStringInput(input.getChords());
-
-        ChordSequence sequence = new ChordSequence();
-
-        for (ChordModel model : chordModels) {
-            sequence.addChord(chordBuilder.build(model));
+        ChordSequence chords = new ChordSequence();
+        for(String chord : parser.splitString(input.getChords())) {
+            chords.addChord(chordBuilder.build(chord));
         }
 
-        player = new AndroidPlayer(sequence, Integer.parseInt(input.getTempo()), Integer.parseInt(input.getLoopCount()));
+        AndroidPlayer player = new AndroidPlayer(chords, Integer.parseInt(input.getTempo()), Integer.parseInt(input.getLoopCount()));
         player.start();
+
 
         SaveLastSequenceToPreferences.setStoredSequence(this,chordsInput.getText().toString(), Integer.parseInt(tempoInput.getText().toString()));
     }

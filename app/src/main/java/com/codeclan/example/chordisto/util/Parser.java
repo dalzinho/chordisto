@@ -1,11 +1,9 @@
-package com.codeclan.example.chordisto.parser;
+package com.codeclan.example.chordisto.util;
 
 import com.codeclan.example.chordisto.chordenums.RootName;
 import com.codeclan.example.chordisto.chordenums.TriadType;
 import com.codeclan.example.chordisto.model.ChordModel;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -15,12 +13,11 @@ import static com.codeclan.example.chordisto.chordenums.TriadType.*;
  * Created by user on 03/03/2017.
  */
 
-public class RegexParser implements Parser {
+public class Parser {
 
-    public static final String CHORD_REGEX = "([A-Ga-g][b#]?)([m7oø+])?(.*)";
     private static TriadType triad;
 
-    private String[] splitString(String string) {
+    public String[] splitString(String string) {
         return string.split("[, ]+");
     }
 
@@ -55,7 +52,7 @@ public class RegexParser implements Parser {
 
     }
 
-    private TriadType setTriad(String triadInfo) {
+    private static TriadType setTriad(String triadInfo) {
         triad = null;
         if (triadInfo == null) {
             triad = MAJOR;
@@ -97,10 +94,10 @@ public class RegexParser implements Parser {
         return null;
     }
 
-    private ChordModel getChordModelFromChordName(String chordName) {
+    public ChordModel setVariables(String chordName) {
         TriadType triadType = null;
         RootName rootName = null;
-        Pattern pattern = Pattern.compile(CHORD_REGEX);
+        Pattern pattern = Pattern.compile("([A-Ga-g][b#]?)([m7oø+])?(.*)");
         Matcher m = pattern.matcher(chordName);
 
         if (m.matches()) {
@@ -117,15 +114,5 @@ public class RegexParser implements Parser {
         chord.setRoot(rootName);
         chord.setType(triadType);
         return chord;
-    }
-
-    public List<ChordModel> getChordModelsFromStringInput(String input) {
-        List<ChordModel> chordList = new ArrayList<>();
-
-        for (String chord : splitString(input)) {
-            chordList.add(getChordModelFromChordName(chord));
-        }
-
-        return chordList;
     }
 }

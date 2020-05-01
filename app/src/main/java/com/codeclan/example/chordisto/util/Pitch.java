@@ -3,7 +3,6 @@ package com.codeclan.example.chordisto.util;
 import com.codeclan.example.chordisto.chordenums.RootName;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by user on 03/03/2017.
@@ -11,18 +10,16 @@ import java.util.List;
 
 public class Pitch {
 
-    private static final int LOWEST_BASS = 48;
-    private static final int HIGHEST_BASS = 59;
-    private static final int LOWEST_MIDDLE = 60;
-    private static final int HIGHEST_MIDDLE = 83;
-    private List<Integer> bassPitchNumbers;
-    private List<Integer> middlePitchNumbers;
-    private List<RootName> roots;
+    ArrayList<Integer> bassPitchNumbers;
+    ArrayList<Integer> middlePitchNumbers;
+    ArrayList<RootName> roots;
 
     public Pitch() {
+
         bassPitchNumbers = new ArrayList<>();
-        int start = LOWEST_BASS;
-        int last = HIGHEST_BASS;
+        //these ints are midi note names
+        int start = 48;
+        int last = 59;
 
         int counter = start;
         do {
@@ -31,8 +28,8 @@ public class Pitch {
         } while (counter <= last);
 
         middlePitchNumbers = new ArrayList<>();
-        start = LOWEST_MIDDLE;
-        last = HIGHEST_MIDDLE;
+        start = 60;
+        last = 83;
 
         counter = start;
 
@@ -51,16 +48,20 @@ public class Pitch {
 
     //some getters
 
-    public List<Integer> getBassPitchNumbers() {
+    public ArrayList<Integer> getBassPitchNumbers() {
         return bassPitchNumbers;
     }
 
-    public List<Integer> getMiddlePitchNumbers() {
+    public ArrayList<Integer> getMiddlePitchNumbers() {
         return middlePitchNumbers;
     }
 
-    public List<RootName> getRoots() {
+    public ArrayList<RootName> getRoots() {
         return roots;
+    }
+
+    public int getBassPitchByIndex(int index){
+        return bassPitchNumbers.get(index);
     }
 
     public int getRootIndexByName(RootName root){
@@ -69,6 +70,10 @@ public class Pitch {
 
     public int getBassValue(RootName root){
         return bassPitchNumbers.get(getRootIndexByName(root));
+    }
+
+    public int getMiddlePitchByIndex(int index){
+        return middlePitchNumbers.get(index);
     }
 
     public int getThirdOfMiddleRegister(RootName root){
